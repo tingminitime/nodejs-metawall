@@ -3,7 +3,7 @@ const User = require('../models/users')
 const { errorHandler, successHandler, schemaErrorHandler } = require('../utils/responseHandler')
 
 /**
- * Get post data
+ * [GET] Get post data
  * all posts, single post, keyword search, pagination search
  */
 exports.getPostHandler = async (req, res, next) => {
@@ -118,7 +118,7 @@ exports.getPostHandler = async (req, res, next) => {
 }
 
 /**
- * Add new post data
+ * [POST] Add new post data
  */
 exports.createNewPostHandler = async (req, res, next) => {
   const reqData = req.body
@@ -133,12 +133,17 @@ exports.createNewPostHandler = async (req, res, next) => {
   }
 
   try {
-    const newPost = await Post.create({
-      user: reqData.user,
+    let newPost = await Post.create({
+      user: reqData.userId,
       tags: reqData.tags,
       type: reqData.type,
       image: reqData.image,
       content: reqData.content,
+    })
+
+    newPost = await newPost.populate({
+      path: 'user',
+      select: 'userName avatar'
     })
 
     successHandler(
@@ -160,7 +165,7 @@ exports.createNewPostHandler = async (req, res, next) => {
 }
 
 /**
- * Delete all post data, or delete single post data
+ * [DELETE] Delete all post data, or delete single post data
  */
 exports.deletePostHandler = async (req, res, next) => {
   const { params } = req
@@ -200,9 +205,9 @@ exports.deletePostHandler = async (req, res, next) => {
         res,
         200,
         deletePost,
-        `Delete one post: userId: ${deletePost.user} postId:${deletePost._id}`,
+        `Delete one post: userId: ${deletePost.user._id} postId:${deletePost._id}`,
         {
-          userId: deletePost.user,
+          userId: deletePost.user._id,
           postId: deletePost._id,
         }
       )
@@ -214,7 +219,7 @@ exports.deletePostHandler = async (req, res, next) => {
 }
 
 /**
- * Update single post
+ * [PATCH] Update single post
  */
 exports.updatePostHandler = async (req, res, next) => {
   const { params } = req
@@ -230,7 +235,10 @@ exports.updatePostHandler = async (req, res, next) => {
       { _id: params.postId },
       reqData,
       { new: true, runValidators: true }
-    )
+    ).populate({
+      path: 'user',
+      select: 'userName avatar'
+    })
 
     if (updatePost) {
       successHandler(
