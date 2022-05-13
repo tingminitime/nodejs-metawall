@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "d896f829-ae0d-45cf-9209-26a60759b04f",
+		"name": "nodejs-express-heroku",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{herokuUrl}}/posts?pageSize=10&currentPage=1&descending=false",
+					"host": [
+						"{{herokuUrl}}"
+					],
+					"path": [
+						"posts"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "currentPage",
+							"value": "1"
+						},
+						{
+							"key": "descending",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all posts include keyword",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{herokuUrl}}/posts?pageSize=10&currentPage=1&keyword=測試&descending=false",
+					"host": [
+						"{{herokuUrl}}"
+					],
+					"path": [
+						"posts"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "currentPage",
+							"value": "1"
+						},
+						{
+							"key": "keyword",
+							"value": "測試"
+						},
+						{
+							"key": "descending",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{herokuUrl}}/posts/6262612bbb766c6cd75e0e27",
+					"host": [
+						"{{herokuUrl}}"
+					],
+					"path": [
+						"posts",
+						"6262612bbb766c6cd75e0e27"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Tim\",\r\n    \"tags\": [\"新聞\"],\r\n    \"type\": \"person\",\r\n    \"image\": \"https://picsum.photos/200/300?random=1\",\r\n    \"content\": \"測試貼文3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{herokuUrl}}/posts",
+					"host": [
+						"{{herokuUrl}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all post",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{herokuUrl}}/posts/",
+					"host": [
+						"{{herokuUrl}}"
+					],
+					"path": [
+						"posts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete single post",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{herokuUrl}}/posts/6271317204767b45352119f4",
+					"host": [
+						"{{herokuUrl}}"
+					],
+					"path": [
+						"posts",
+						"6271317204767b45352119f4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update single post",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\": \"測試貼文333\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{herokuUrl}}/posts/627130b504767b45352119dd",
+					"host": [
+						"{{herokuUrl}}"
+					],
+					"path": [
+						"posts",
+						"627130b504767b45352119dd"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "herokuUrl",
+			"value": "https://nodejs-express-api-practice.herokuapp.com",
+			"type": "string"
+		}
+	]
+}
