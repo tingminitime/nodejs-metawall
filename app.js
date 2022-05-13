@@ -33,6 +33,7 @@ mongoose.connect(mongodbURI, mongodbConnectionOptions)
 
 // Router
 const postsRouter = require('./routes/posts')
+const usersRouter = require('./routes/users')
 
 // Express Instance
 const app = express()
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Route setting
 app.use('/posts', postsRouter)
+app.use('/users', usersRouter)
 
 // 404 Handler
 app.use(function (req, res, next) {

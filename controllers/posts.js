@@ -133,6 +133,9 @@ exports.createNewPostHandler = async (req, res, next) => {
   }
 
   try {
+    const user = await User.exists({ _id: reqData.userId })
+    if (!user) throw new Error(`The userId does not exist.`)
+
     let newPost = await Post.create({
       user: reqData.userId,
       tags: reqData.tags,
@@ -154,7 +157,7 @@ exports.createNewPostHandler = async (req, res, next) => {
     )
   } catch (error) {
     console.error('TypeError', error)
-    const errorMessage = schemaErrorHandler(error.errors)
+    const errorMessage = schemaErrorHandler(error.errors) || { error: error?.message }
     errorHandler(
       res,
       400,

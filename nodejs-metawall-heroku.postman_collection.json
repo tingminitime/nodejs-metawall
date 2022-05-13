@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "18fdf396-6df2-4212-85d7-1f9b5145073c",
+		"name": "nodejs-metawall-heroku",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{herokuURL}}/posts?pageSize=10&currentPage=1&descending=false",
+					"host": [
+						"{{herokuURL}}"
+					],
+					"path": [
+						"posts"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "currentPage",
+							"value": "1"
+						},
+						{
+							"key": "descending",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all posts include keyword",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{herokuURL}}/posts?pageSize=10&currentPage=1&keyword=2&descending=false",
+					"host": [
+						"{{herokuURL}}"
+					],
+					"path": [
+						"posts"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "currentPage",
+							"value": "1"
+						},
+						{
+							"key": "keyword",
+							"value": "2"
+						},
+						{
+							"key": "descending",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{herokuURL}}/posts/627e98c4f82d4dd4b0ce4415",
+					"host": [
+						"{{herokuURL}}"
+					],
+					"path": [
+						"posts",
+						"627e98c4f82d4dd4b0ce4415"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add post ( with user )",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"627e98178889cb0440a73815\",\r\n    \"tags\": [\"旅遊\"],\r\n    \"type\": \"person\",\r\n    \"image\": \"https://picsum.photos/200/300?random=1\",\r\n    \"content\": \"測試貼文3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{herokuURL}}/posts",
+					"host": [
+						"{{herokuURL}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all post",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{herokuURL}}/posts",
+					"host": [
+						"{{herokuURL}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete single post",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{herokuURL}}/posts/627e9286059ebda850a219a4",
+					"host": [
+						"{{herokuURL}}"
+					],
+					"path": [
+						"posts",
+						"627e9286059ebda850a219a4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update single post",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\": \"測試貼文3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{herokuURL}}/posts/627e98c4f82d4dd4b0ce4415",
+					"host": [
+						"{{herokuURL}}"
+					],
+					"path": [
+						"posts",
+						"627e98c4f82d4dd4b0ce4415"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{herokuURL}}/users",
+					"host": [
+						"{{herokuURL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "herokuURL",
+			"value": "https://nodejs-metawall.herokuapp.com",
+			"type": "string"
+		}
+	]
+}
