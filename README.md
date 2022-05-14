@@ -1,4 +1,4 @@
-# nodejs-mongoose-sample
+# Hexschool - nodejs Metawall
 
 ## About <a name = "about"></a>
 
