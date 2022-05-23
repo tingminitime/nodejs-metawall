@@ -5,6 +5,11 @@ const { errorHandler, successHandler, schemaErrorHandler } = require('../utils/r
  * [GET] Get user data
  */
 exports.getUsersHandler = async (req, res, next) => {
+  /**
+   * #swagger.tags = ['Users']
+   * #swagger.description = '取得所有使用者資料'
+   * #swagger.ignore = false
+   */
   try {
     const users = await User.find()
 

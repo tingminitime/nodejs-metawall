@@ -7,6 +7,8 @@ const boolParser = require('express-query-boolean');
 const logger = require('morgan')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const swaggerUI = require('swagger-ui-express')
+const swaggerFile = require('./swagger-output.json')
 const { errorHandler } = require('./utils/responseHandler')
 
 // Register env config
@@ -50,8 +52,9 @@ app.use(boolParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Route setting
-app.use('/posts', postsRouter)
+app.use('/api', postsRouter)
 app.use('/users', usersRouter)
+app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 // 404 Handler
 app.use(function (req, res, next) {
