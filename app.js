@@ -51,12 +51,19 @@ app.use(bodyParser.json())
 app.use(boolParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// Critical error handling
+process.on('uncaughtException', err => {
+  console.error('UncaughtException!')
+  console.error(err)
+  process.exit(1)
+})
+
 // Route setting
 app.use('/api', postsRouter)
 app.use('/users', usersRouter)
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
-// 404 Handler
+// Catch 404 not found when routes above do not exist.
 app.use(function (req, res, next) {
   errorHandler(res, 404, `Invalid request path.`)
 });
@@ -64,7 +71,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
-  console.log(err)
+  console.error(err)
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
@@ -75,6 +82,11 @@ app.use(function (err, req, res, next) {
   )
 })
 
-console.log(process.env.NODE_ENV)
+// Leaked catch handling
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('(Leaked catch) rejection:', promise)
+  console.error('(Leaked catch) reason:', reason.message)
+})
 
+console.log(process.env.NODE_ENV)
 module.exports = app

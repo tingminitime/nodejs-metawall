@@ -139,33 +139,11 @@ exports.getSinglePostHandler = async (req, res, next) => {
     }
    * #swagger.responses[400] = {
       description: '錯誤 id',
-      schema: {
-        success: false,
-        message: 'Invalid Id.'
-      }
+      schema: { $ref: '#/definitions/commonError' }
     }
    * #swagger.responses[200] = {
       description: '取得貼文回傳資訊',
-      schema: {
-        data: {
-          _id: '貼文 id',
-          user: {
-            _id: '使用者 id',
-            avatar: '使用者大頭貼',
-            userName: '使用者名稱'
-          },
-          tags: ['貼文標籤'],
-          type: '貼文類別',
-          image: '貼文圖片',
-          content: '貼文內容',
-          likes: 0,
-          comments: 0,
-          createdAt: '貼文發布時間(UTC)',
-          createdAtTW: '貼文發布時間(UTC+8)'
-        },
-        success: true,
-        message: 'API 訊息'
-      }
+      schema: { $ref: '#/definitions/getSinglePostSuccessfully' }
     }
    */
 
@@ -222,45 +200,15 @@ exports.createNewPostHandler = async (req, res, next) => {
       description: '資料格式',
       type: 'object',
       required: true,
-      schema: {
-        $content: '貼文內容',
-        $userId: '使用者 id',
-        $tags: ['貼文標籤'],
-        $type: 'person',
-        image: ''
-      }
+      schema: { $ref: '#/definitions/createNewPostBody' }
     }
    * #swagger.responses[400] = {
       description: '新增貼文失敗',
-      schema: {
-        success: false,
-        message: '錯誤訊息描述'
-      }
+      schema: { $ref: '#/definitions/commonError' }
     }
    * #swagger.responses[201] = {
       description: '新增貼文成功',
-      schema: {
-        data: {
-          user: {
-            _id: '使用者 id',
-            avatar: '使用者大頭貼',
-            userName: '使用者名稱'
-          },
-          tags: [
-            '貼文標籤'
-          ],
-          type: 'person',
-          image: '貼文圖片網址',
-          content: '貼文內容',
-          likes: 0,
-          comments: 0,
-          _id: '貼文 id',
-          createdAt: '貼文發布時間(UTC)',
-          createdAtTW: '貼文發布時間(UTC+08:00)'
-        },
-        success: true,
-        message: 'Create post successfully.'
-      }
+      schema: { $ref: '#/definitions/createNewPostSuccessfully' }
     }
    */
 
@@ -386,6 +334,12 @@ exports.updatePostHandler = async (req, res, next) => {
   /**
    * #swagger.tags = ['Posts - 貼文']
    * #swagger.description = '更新單筆貼文資料'
+   * #swagger.parameters['body'] = {
+      in: 'body',
+      description: '資料格式',
+      required: true,
+      schema: { $ref: '#/definitions/updatePostBody' }
+    }
    */
   const { params } = req
   const reqData = req.body

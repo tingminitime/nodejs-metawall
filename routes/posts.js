@@ -1,9 +1,10 @@
 const express = require('express')
 const PostController = require('../controllers/posts')
+const catchAsync = require('../utils/catchAsync')
 
 const router = express.Router()
 
-router.get('/posts', PostController.getPostsHandler)
+router.get('/posts', catchAsync(PostController.getPostsHandler))
 
 router.get('/post/:postId', PostController.getSinglePostHandler)
 
