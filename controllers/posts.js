@@ -10,43 +10,6 @@ const {
  * all posts, keyword search, pagination search
  */
 exports.getPostsHandler = async (req, res, next) => {
-  /**
-   * #swagger.tags = ['Posts - 貼文']
-   * #swagger.description = '取得全部貼文資料'
-   * #swagger.parameters['pageSize'] = {
-      in: 'query',
-      description: '一頁顯示幾筆',
-      required: true,
-      type: 'number',
-      format: 'int64'
-    }
-   * #swagger.parameters['currentPage'] = {
-      in: 'query',
-      description: '當前頁碼',
-      required: true,
-      type: 'number',
-      format: 'int64'
-    }
-   * #swagger.parameters['keyword'] = {
-      in: 'query',
-      description: '貼文搜尋關鍵字',
-      type: 'string'
-    }
-   * #swagger.parameters['descending'] = {
-      in: 'query',
-      description: '貼文排序是否依發布時間降冪',
-      type: 'boolean'
-    }
-   * #swagger.responses[400] = {
-      description: '錯誤請求',
-      schema: { $ref: '#/definitions/commonError' }
-    }
-   * #swagger.responses[200] = {
-      description: '取得貼文回傳資訊',
-      schema: { $ref: '#/definitions/getPostsSuccessfully' }
-    }
-  */
-
   const { query } = req
 
   // If params hasn't Id, have to give pagination query. (pageSize, currentPage)
@@ -115,23 +78,6 @@ exports.getPostsHandler = async (req, res, next) => {
  * [GET] Get single post data
  */
 exports.getSinglePostHandler = async (req, res, next) => {
-  /**
-   * #swagger.tags = ['Posts - 貼文']
-   * #swagger.description = '取得單一貼文資料'
-   * #swagger.parameters['postId'] = {
-      in: 'query',
-      description: '取得單筆貼文 id'
-    }
-   * #swagger.responses[400] = {
-      description: '錯誤 id',
-      schema: { $ref: '#/definitions/commonError' }
-    }
-   * #swagger.responses[200] = {
-      description: '取得貼文回傳資訊',
-      schema: { $ref: '#/definitions/getSinglePostSuccessfully' }
-    }
-   */
-
   const { params } = req
 
   // If params has Id, return single post data
@@ -164,30 +110,7 @@ exports.getSinglePostHandler = async (req, res, next) => {
 /**
  * [POST] Add new post data
  */
-exports.createNewPostHandler = async (req, res, next) => {
-  /**
-   * #swagger.tags = ['Posts - 貼文']
-   * #swagger.description = '新增單筆貼文資料'
-   * #swagger.security = [{
-      "apiKeyAuth": []
-    }]
-   * #swagger.parameters['body'] = {
-      in: 'body',
-      description: '資料格式',
-      type: 'object',
-      required: true,
-      schema: { $ref: '#/definitions/createNewPostBody' }
-    }
-   * #swagger.responses[400] = {
-      description: '新增貼文失敗',
-      schema: { $ref: '#/definitions/commonError' }
-    }
-   * #swagger.responses[201] = {
-      description: '新增貼文成功',
-      schema: { $ref: '#/definitions/createNewPostSuccessfully' }
-    }
-   */
-
+exports.createPostHandler = async (req, res, next) => {
   const reqData = req.body
   if (!reqData || Object.keys(reqData).length === 0) {
     errorHandler(res, 400, `Empty request data.`)
@@ -232,11 +155,6 @@ exports.createNewPostHandler = async (req, res, next) => {
  * [DELETE] Delete all post data
  */
 exports.deleteAllPostsHandler = async (req, res, next) => {
-  /**
-   * #swagger.tags = ['Posts - 貼文']
-   * #swagger.description = '刪除全部貼文資料'
-   */
-
   const data = await Post.deleteMany({})
   successHandler(
     res,
@@ -253,11 +171,6 @@ exports.deleteAllPostsHandler = async (req, res, next) => {
  * [DELETE] Delete single post data
  */
 exports.deleteSinglePostHandler = async (req, res, next) => {
-  /**
-   * #swagger.tags = ['Posts - 貼文']
-   * #swagger.description = '刪除單筆貼文資料'
-   */
-
   const { params } = req
   if (!params.postId) {
     errorHandler(res, 400, `Delete unsuccessfully, no Id exist.`)
@@ -286,17 +199,6 @@ exports.deleteSinglePostHandler = async (req, res, next) => {
  * [PATCH] Update single post
  */
 exports.updatePostHandler = async (req, res, next) => {
-  /**
-   * #swagger.tags = ['Posts - 貼文']
-   * #swagger.description = '更新單筆貼文資料'
-   * #swagger.parameters['body'] = {
-      in: 'body',
-      description: '資料格式',
-      required: true,
-      schema: { $ref: '#/definitions/updatePostBody' }
-    }
-   */
-
   const { params } = req
   const reqData = req.body
 

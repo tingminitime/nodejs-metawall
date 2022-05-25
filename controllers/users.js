@@ -8,12 +8,6 @@ const {
  * [GET] Get user data
  */
 exports.getUsersHandler = async (req, res, next) => {
-  /**
-   * #swagger.tags = ['Users']
-   * #swagger.description = '取得所有使用者資料'
-   * #swagger.ignore = false
-   */
-
   const users = await User.find()
 
   successHandler(

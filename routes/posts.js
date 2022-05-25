@@ -1,19 +1,80 @@
 const express = require('express')
 const PostController = require('../controllers/posts')
 const mw = require('../middleware')
+const setSwagger = require('../swagger/config')
 
 const router = express.Router()
 
-router.get('/posts', mw.catchAsync(PostController.getPostsHandler))
+/**
+ * Get posts
+ * @param {string} path - router path
+ * @param {function} swagger - set swagger config
+ * @param {function} exception - run request controller and catch error
+ */
+router.get(
+  '/posts',
+  setSwagger.getPosts,
+  mw.catchAsync(PostController.getPostsHandler)
+)
 
-router.get('/post/:postId', mw.catchAsync(PostController.getSinglePostHandler))
+/**
+ * Get single post
+ * @param {string} path - router path
+ * @param {function} swagger - set swagger config
+ * @param {function} exception - run request controller and catch error
+ */
+router.get(
+  '/post/:postId',
+  setSwagger.getSinglePost,
+  mw.catchAsync(PostController.getSinglePostHandler)
+)
 
-router.post('/post', mw.catchAsync(PostController.createNewPostHandler))
+/**
+ * Create a post with post id
+ * @param {string} path - router path
+ * @param {function} swagger - set swagger config
+ * @param {function} exception - run request controller and catch error
+ */
+router.post(
+  '/post',
+  setSwagger.createPost,
+  mw.catchAsync(PostController.createPostHandler)
+)
 
-router.delete('/posts', mw.catchAsync(PostController.deleteAllPostsHandler))
+/**
+ * Delete all posts
+ * @param {string} path - router path
+ * @param {function} swagger - set swagger config
+ * @param {function} exception - run request controller and catch error
+ */
+router.delete(
+  '/posts',
+  setSwagger.deleteAllPosts,
+  mw.catchAsync(PostController.deleteAllPostsHandler)
+)
 
-router.delete('/post/:postId', mw.catchAsync(PostController.deleteSinglePostHandler))
+/**
+ * Delete a post with post id
+ * @param {string} path - router path
+ * @param {function} swagger - set swagger config
+ * @param {function} exception - run request controller and catch error
+ */
+router.delete(
+  '/post/:postId',
+  setSwagger.deleteSinglePost,
+  mw.catchAsync(PostController.deleteSinglePostHandler)
+)
 
-router.patch('/post/:postId', mw.catchAsync(PostController.updatePostHandler))
+/**
+ * Update a post with post id
+ * @param {string} path - router path
+ * @param {function} swagger - set swagger config
+ * @param {function} exception - run request controller and catch error
+ */
+router.patch(
+  '/post/:postId',
+  setSwagger.updatePost,
+  mw.catchAsync(PostController.updatePostHandler)
+)
 
 module.exports = router

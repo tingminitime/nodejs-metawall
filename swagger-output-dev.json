@@ -22,31 +22,99 @@
   "paths": {
     "/api/posts": {
       "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "取得全部貼文資料",
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "一頁顯示幾筆",
+            "required": true,
+            "type": "number",
+            "format": "int64"
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "description": "當前頁碼",
+            "required": true,
+            "type": "number",
+            "format": "int64"
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "貼文搜尋關鍵字",
+            "type": "string"
+          },
+          {
+            "name": "descending",
+            "in": "query",
+            "description": "貼文排序是否依發布時間降冪",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得貼文回傳資訊",
+            "schema": {
+              "$ref": "#/definitions/getPostsSuccessfully"
+            }
+          },
+          "400": {
+            "description": "錯誤請求",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "刪除全部貼文資料",
         "parameters": [],
         "responses": {}
       }
     },
     "/api/post/{postId}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "取得單一貼文資料",
         "parameters": [
           {
             "name": "postId",
-            "in": "path",
+            "in": "query",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "取得單筆貼文 id"
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "取得貼文回傳資訊",
+            "schema": {
+              "$ref": "#/definitions/getSinglePostSuccessfully"
+            }
+          },
+          "400": {
+            "description": "錯誤 id",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "刪除單筆貼文資料",
         "parameters": [
           {
             "name": "postId",
@@ -58,13 +126,25 @@
         "responses": {}
       },
       "patch": {
-        "description": "",
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "更新單筆貼文資料",
         "parameters": [
           {
             "name": "postId",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "資料格式",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updatePostBody"
+            }
           }
         ],
         "responses": {}
@@ -72,14 +152,48 @@
     },
     "/api/post": {
       "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "新增單筆貼文資料",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "資料格式",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createNewPostBody"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "新增貼文成功",
+            "schema": {
+              "$ref": "#/definitions/createNewPostSuccessfully"
+            }
+          },
+          "400": {
+            "description": "新增貼文失敗",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/api/users/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "取得所有使用者資料",
         "parameters": [],
         "responses": {}
       }
