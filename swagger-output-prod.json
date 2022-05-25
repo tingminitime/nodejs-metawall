@@ -5,7 +5,7 @@
     "description": "Metawall API 文件",
     "version": "1.0.0"
   },
-  "host": "https://nodejs-metawall.herokuapp.com",
+  "host": "nodejs-metawall.herokuapp.com",
   "basePath": "/",
   "schemes": [
     "http",
