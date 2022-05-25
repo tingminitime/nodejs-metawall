@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "18fdf396-6df2-4212-85d7-1f9b5145073c",
 		"name": "nodejs-metawall-heroku",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15224824"
 	},
 	"item": [
 		{
@@ -11,11 +12,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{herokuURL}}/posts?pageSize=10&currentPage=1&descending=false",
+					"raw": "{{herokuURL}}/api/posts?pageSize=10&currentPage=1&descending=true",
 					"host": [
 						"{{herokuURL}}"
 					],
 					"path": [
+						"api",
 						"posts"
 					],
 					"query": [
@@ -29,7 +31,7 @@
 						},
 						{
 							"key": "descending",
-							"value": "false"
+							"value": "true"
 						}
 					]
 				}
@@ -42,11 +44,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{herokuURL}}/posts?pageSize=10&currentPage=1&keyword=2&descending=false",
+					"raw": "{{herokuURL}}/api/posts?pageSize=10&currentPage=1&keyword=2&descending=false",
 					"host": [
 						"{{herokuURL}}"
 					],
 					"path": [
+						"api",
 						"posts"
 					],
 					"query": [
@@ -77,13 +80,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{herokuURL}}/posts/627e98c4f82d4dd4b0ce4415",
+					"raw": "{{herokuURL}}/api/post/628e6934edf187d18f0bf24c",
 					"host": [
 						"{{herokuURL}}"
 					],
 					"path": [
-						"posts",
-						"627e98c4f82d4dd4b0ce4415"
+						"api",
+						"post",
+						"628e6934edf187d18f0bf24c"
 					]
 				}
 			},
@@ -96,7 +100,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": \"627e98178889cb0440a73815\",\r\n    \"tags\": [\"旅遊\"],\r\n    \"type\": \"person\",\r\n    \"image\": \"https://picsum.photos/200/300?random=1\",\r\n    \"content\": \"測試貼文3\"\r\n}",
+					"raw": "{\r\n    \"userId\": \"627e98178889cb0440a73812\",\r\n    \"tags\": [\"卯咪\"],\r\n    \"type\": \"person\",\r\n    \"image\": \"https://picsum.photos/200/300?random=1\",\r\n    \"content\": \"測試貼文3\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -104,12 +108,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{herokuURL}}/posts",
+					"raw": "{{herokuURL}}/api/post",
 					"host": [
 						"{{herokuURL}}"
 					],
 					"path": [
-						"posts"
+						"api",
+						"post"
 					]
 				}
 			},
@@ -121,11 +126,12 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{herokuURL}}/posts",
+					"raw": "{{herokuURL}}/api/posts",
 					"host": [
 						"{{herokuURL}}"
 					],
 					"path": [
+						"api",
 						"posts"
 					]
 				}
@@ -138,13 +144,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{herokuURL}}/posts/627e9286059ebda850a219a4",
+					"raw": "{{herokuURL}}/api/post/628e6952edf187d18f0bf258",
 					"host": [
 						"{{herokuURL}}"
 					],
 					"path": [
-						"posts",
-						"627e9286059ebda850a219a4"
+						"api",
+						"post",
+						"628e6952edf187d18f0bf258"
 					]
 				}
 			},
@@ -157,7 +164,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"content\": \"測試貼文3\"\r\n}",
+					"raw": "{\r\n    \"userId\": null,\r\n    \"content\": \"測試貼文222\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -165,13 +172,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{herokuURL}}/posts/627e98c4f82d4dd4b0ce4415",
+					"raw": "{{herokuURL}}/api/post/628e6934edf187d18f0bf24c",
 					"host": [
 						"{{herokuURL}}"
 					],
 					"path": [
-						"posts",
-						"627e98c4f82d4dd4b0ce4415"
+						"api",
+						"post",
+						"628e6934edf187d18f0bf24c"
 					]
 				}
 			},
@@ -183,11 +191,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{herokuURL}}/users",
+					"raw": "{{herokuURL}}/api/users",
 					"host": [
 						"{{herokuURL}}"
 					],
 					"path": [
+						"api",
 						"users"
 					]
 				}

@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "eb3e970f-020c-4b3a-a940-738c5ba3cc3a",
 		"name": "nodejs-metawall-local",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15224824"
 	},
 	"item": [
 		{
@@ -11,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts?pageSize=10&currentPage=1&descending=false",
+					"raw": "http://127.0.0.1:3005/api/posts?pageSize=10&currentPage=1&descending=true",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -21,6 +22,7 @@
 					],
 					"port": "3005",
 					"path": [
+						"api",
 						"posts"
 					],
 					"query": [
@@ -34,7 +36,7 @@
 						},
 						{
 							"key": "descending",
-							"value": "false"
+							"value": "true"
 						}
 					]
 				}
@@ -47,7 +49,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts?pageSize=10&currentPage=1&keyword=2&descending=false",
+					"raw": "http://127.0.0.1:3005/api/posts?pageSize=10&currentPage=1&keyword=2&descending=false",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -57,6 +59,7 @@
 					],
 					"port": "3005",
 					"path": [
+						"api",
 						"posts"
 					],
 					"query": [
@@ -87,7 +90,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts/627b5bdcb64d188919db07a3",
+					"raw": "http://127.0.0.1:3005/api/post/628e5d922688ced678f2df8c",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -97,8 +100,9 @@
 					],
 					"port": "3005",
 					"path": [
-						"posts",
-						"627b5bdcb64d188919db07a3"
+						"api",
+						"post",
+						"628e5d922688ced678f2df8c"
 					]
 				}
 			},
@@ -111,7 +115,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": \"627e7b13167b77575d3dc88a\",\r\n    \"tags\": [\"旅遊\"],\r\n    \"type\": \"person\",\r\n    \"image\": \"https://picsum.photos/200/300?random=1\",\r\n    \"content\": \"測試貼文3\"\r\n}",
+					"raw": "{\r\n    \"userId\": \"627e7b13167b77575d3dc88a\",\r\n    \"tags\": [\"旅遊\"],\r\n    \"type\": \"person\",\r\n    \"image\": \"https://picsum.photos/200/300?random=1\",\r\n    \"content\": \"測試貼文2\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -119,7 +123,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts",
+					"raw": "http://127.0.0.1:3005/api/post",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -129,7 +133,8 @@
 					],
 					"port": "3005",
 					"path": [
-						"posts"
+						"api",
+						"post"
 					]
 				}
 			},
@@ -141,7 +146,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts",
+					"raw": "http://127.0.0.1:3005/api/posts",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -151,6 +156,7 @@
 					],
 					"port": "3005",
 					"path": [
+						"api",
 						"posts"
 					]
 				}
@@ -163,7 +169,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts/627e9558414055c69b5ec798",
+					"raw": "http://127.0.0.1:3005/api/post/6288fe215284a2461dfec639",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -173,8 +179,9 @@
 					],
 					"port": "3005",
 					"path": [
-						"posts",
-						"627e9558414055c69b5ec798"
+						"api",
+						"post",
+						"6288fe215284a2461dfec639"
 					]
 				}
 			},
@@ -187,7 +194,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"content\": \"測試貼文3\"\r\n}",
+					"raw": "{\r\n    \"tags\": \"卯咪\",\r\n    \"type\": \"group\",\r\n    \"content\": \"測試貼文111\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -195,7 +202,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts/627e9558414055c69b5ec798",
+					"raw": "http://127.0.0.1:3005/api/post/628e4292aedd82d811fe03da",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -205,8 +212,9 @@
 					],
 					"port": "3005",
 					"path": [
-						"posts",
-						"627e9558414055c69b5ec798"
+						"api",
+						"post",
+						"628e4292aedd82d811fe03da"
 					]
 				}
 			},
@@ -218,7 +226,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/users",
+					"raw": "http://127.0.0.1:3005/api/users",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -228,6 +236,7 @@
 					],
 					"port": "3005",
 					"path": [
+						"api",
 						"users"
 					]
 				}
