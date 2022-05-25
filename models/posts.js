@@ -36,7 +36,8 @@ const postSchema = new Schema({
   },
   type: {
     type: String,
-    enum: ['group', 'person']
+    enum: ['group', 'person'],
+    required: [true, `'type' is required.`]
   },
   image: {
     type: String,

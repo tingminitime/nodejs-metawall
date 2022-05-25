@@ -5,33 +5,16 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const boolParser = require('express-query-boolean');
 const logger = require('morgan')
-const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const swaggerUI = require('swagger-ui-express')
 const swaggerFile = require('./swagger-output.json')
-const { errorHandler } = require('./utils/responseHandler')
+const mw = require('./middleware')
 
 // Register env config
 dotenv.config({ path: './config.env' })
 
-// --- START: MongoDB connection setting ---
-let mongodbURI = process.env.DATABASE_DEV
-if (process.env.NODE_ENV === 'production') {
-  mongodbURI = process.env.DATABASE.replace(
-    '<password>',
-    process.env.DATABASE_PASSWORD
-  )
-}
-
-const mongodbConnectionOptions = {
-  serverSelectionTimeoutMS: 5000,
-}
-
-mongoose.connect(mongodbURI, mongodbConnectionOptions)
-  .then(() => console.log('資料庫連線成功'))
-  .catch(error => console.error('資料庫連線失敗: ', error))
-
-// --- END: MongoDB connection setting ---
+// MongoDB connection setting
+require('./connections')
 
 // Router
 const postsRouter = require('./routes/posts')
@@ -51,6 +34,17 @@ app.use(bodyParser.json())
 app.use(boolParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// Route setting
+app.use('/api', postsRouter)
+app.use('/api/users', usersRouter)
+app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile))
+
+// Catch 404 not found when routes above do not exist.
+app.use(mw.catchNotFount)
+
+// Error handler
+app.use(mw.catchException)
+
 // Critical error handling
 process.on('uncaughtException', err => {
   console.error('UncaughtException!')
@@ -58,35 +52,10 @@ process.on('uncaughtException', err => {
   process.exit(1)
 })
 
-// Route setting
-app.use('/api', postsRouter)
-app.use('/users', usersRouter)
-app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile))
-
-// Catch 404 not found when routes above do not exist.
-app.use(function (req, res, next) {
-  errorHandler(res, 404, `Invalid request path.`)
-});
-
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  console.error(err)
-  res.locals.message = err.message
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
-
-  errorHandler(
-    res,
-    err.status || 500,
-    err.message || `Server Error or Invalid Request.`
-  )
-})
-
-// Leaked catch handling
+// Leaked error catch handling
 process.on('unhandledRejection', (reason, promise) => {
   console.error('(Leaked catch) rejection:', promise)
   console.error('(Leaked catch) reason:', reason.message)
 })
 
-console.log(process.env.NODE_ENV)
 module.exports = app
