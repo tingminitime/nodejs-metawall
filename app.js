@@ -7,7 +7,8 @@ const boolParser = require('express-query-boolean');
 const logger = require('morgan')
 const dotenv = require('dotenv')
 const swaggerUI = require('swagger-ui-express')
-const swaggerFile = require('./swagger-output.json')
+const swaggerFile_PROD = require('./swagger-output-prod.json')
+const swaggerFile_DEV = require('./swagger-output-dev.json')
 const mw = require('./middleware')
 
 // Register env config
@@ -33,6 +34,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(boolParser())
 app.use(express.static(path.join(__dirname, 'public')))
+
+// Swagger output file settings
+const swaggerFile = process.env.NODE_ENV === 'production'
+  ? swaggerFile_PROD
+  : swaggerFile_DEV
 
 // Route setting
 app.use('/api', postsRouter)

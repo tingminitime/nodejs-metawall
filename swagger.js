@@ -1,11 +1,18 @@
 const swaggerAutogen = require('swagger-autogen')()
+const dotenv = require('dotenv')
+
+dotenv.config({ path: './config.env' })
+
+const hostURL = process.env.NODE_ENV === 'production'
+  ? process.env.SWAGGER_HOST
+  : process.env.SWAGGER_HOST_DEV
 
 const doc = {
   info: {
     title: 'Metawall API',
-    description: '示範範例生成文件',
+    description: 'Metawall API 文件',
   },
-  host: 'localhost:3005',
+  host: hostURL,
   schemes: ['http', 'https'],
   securityDefinitions: {
     apiKeyAuth: {
@@ -100,7 +107,10 @@ const doc = {
   }
 }
 
-const outputFile = './swagger-output.json'
+const outputFile = process.env.NODE_ENV === 'production'
+  ? './swagger-output-prod.json'
+  : './swagger-output-dev.json'
+
 const endpointsFiles = ['./app.js']
 
 swaggerAutogen(outputFile, endpointsFiles, doc)
