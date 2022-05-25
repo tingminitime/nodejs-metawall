@@ -1,0 +1,508 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Metawall API",
+    "description": "Metawall API 文件",
+    "version": "1.0.0"
+  },
+  "host": "https://nodejs-metawall.herokuapp.com",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "token"
+    }
+  },
+  "paths": {
+    "/api/posts": {
+      "get": {
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "取得全部貼文資料",
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "一頁顯示幾筆",
+            "required": true,
+            "type": "number",
+            "format": "int64"
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "description": "當前頁碼",
+            "required": true,
+            "type": "number",
+            "format": "int64"
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "貼文搜尋關鍵字",
+            "type": "string"
+          },
+          {
+            "name": "descending",
+            "in": "query",
+            "description": "貼文排序是否依發布時間降冪",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得貼文回傳資訊",
+            "schema": {
+              "$ref": "#/definitions/getPostsSuccessfully"
+            }
+          },
+          "400": {
+            "description": "錯誤請求",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "刪除全部貼文資料",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/post/{postId}": {
+      "get": {
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "取得單一貼文資料",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "取得單筆貼文 id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得貼文回傳資訊",
+            "schema": {
+              "$ref": "#/definitions/getSinglePostSuccessfully"
+            }
+          },
+          "400": {
+            "description": "錯誤 id",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "刪除單筆貼文資料",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "patch": {
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "更新單筆貼文資料",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "資料格式",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updatePostBody"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/post": {
+      "post": {
+        "tags": [
+          "Posts - 貼文"
+        ],
+        "description": "新增單筆貼文資料",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "資料格式",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createNewPostBody"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "新增貼文成功",
+            "schema": {
+              "$ref": "#/definitions/createNewPostSuccessfully"
+            }
+          },
+          "400": {
+            "description": "新增貼文失敗",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/users/": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得所有使用者資料",
+        "parameters": [],
+        "responses": {}
+      }
+    }
+  },
+  "definitions": {
+    "commonError": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "message": {
+          "type": "string",
+          "example": "錯誤請求描述"
+        }
+      }
+    },
+    "getPostsSuccessfully": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "貼文 id"
+              },
+              "user": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "使用者 id"
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "example": "使用者大頭貼"
+                  },
+                  "userName": {
+                    "type": "string",
+                    "example": "使用者名稱"
+                  }
+                }
+              },
+              "tags": {
+                "type": "array",
+                "example": [
+                  "貼文標籤"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "type": {
+                "type": "string",
+                "example": "貼文類別"
+              },
+              "image": {
+                "type": "string",
+                "example": "貼文圖片網址"
+              },
+              "content": {
+                "type": "string",
+                "example": "貼文內容"
+              },
+              "likes": {
+                "type": "number",
+                "example": 0
+              },
+              "comments": {
+                "type": "number",
+                "example": 0
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "貼文發布時間(UTC)"
+              },
+              "createdAtTW": {
+                "type": "string",
+                "example": "貼文發布時間(UTC+08:00)"
+              }
+            }
+          }
+        },
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "example": "API 訊息"
+        },
+        "total": {
+          "type": "number",
+          "example": 0
+        },
+        "pageSize": {
+          "type": "number",
+          "example": 10
+        },
+        "currentPage": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "getSinglePostSuccessfully": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "貼文 id"
+            },
+            "user": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "使用者 id"
+                },
+                "avatar": {
+                  "type": "string",
+                  "example": "使用者大頭貼"
+                },
+                "userName": {
+                  "type": "string",
+                  "example": "使用者名稱"
+                }
+              }
+            },
+            "tags": {
+              "type": "array",
+              "example": [
+                "貼文標籤"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "type": {
+              "type": "string",
+              "example": "貼文類別"
+            },
+            "image": {
+              "type": "string",
+              "example": "貼文圖片"
+            },
+            "content": {
+              "type": "string",
+              "example": "貼文內容"
+            },
+            "likes": {
+              "type": "number",
+              "example": 0
+            },
+            "comments": {
+              "type": "number",
+              "example": 0
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "貼文發布時間(UTC)"
+            },
+            "createdAtTW": {
+              "type": "string",
+              "example": "貼文發布時間(UTC+8)"
+            }
+          }
+        },
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "example": "API 訊息"
+        }
+      }
+    },
+    "createNewPostSuccessfully": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "使用者 id"
+                },
+                "avatar": {
+                  "type": "string",
+                  "example": "使用者大頭貼"
+                },
+                "userName": {
+                  "type": "string",
+                  "example": "使用者名稱"
+                }
+              }
+            },
+            "tags": {
+              "type": "array",
+              "example": [
+                "貼文標籤"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "type": {
+              "type": "string",
+              "example": "person"
+            },
+            "image": {
+              "type": "string",
+              "example": "貼文圖片網址"
+            },
+            "content": {
+              "type": "string",
+              "example": "貼文內容"
+            },
+            "likes": {
+              "type": "number",
+              "example": 0
+            },
+            "comments": {
+              "type": "number",
+              "example": 0
+            },
+            "_id": {
+              "type": "string",
+              "example": "貼文 id"
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "貼文發布時間(UTC)"
+            },
+            "createdAtTW": {
+              "type": "string",
+              "example": "貼文發布時間(UTC+08:00)"
+            }
+          }
+        },
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "example": "Create post successfully."
+        }
+      }
+    },
+    "createNewPostBody": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "example": "貼文內容"
+        },
+        "userId": {
+          "type": "string",
+          "example": "使用者 id"
+        },
+        "tags": {
+          "type": "array",
+          "example": [
+            "貼文標籤"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "example": "person"
+        },
+        "image": {
+          "type": "string",
+          "example": ""
+        }
+      },
+      "required": [
+        "content",
+        "userId",
+        "tags",
+        "type"
+      ]
+    },
+    "updatePostBody": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "example": "貼文內容"
+        }
+      },
+      "required": [
+        "content"
+      ]
+    }
+  }
+}
