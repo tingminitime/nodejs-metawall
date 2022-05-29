@@ -7,73 +7,55 @@ const router = express.Router()
 
 /**
  * Get posts
- * @param {string} path - router path
- * @param {function} swagger - set swagger config
- * @param {function} exception - run request controller and catch error
  */
 router.get(
   '/posts',
-  setSwagger.getPosts,
+  setSwagger.getPosts, // set swagger config
   mw.catchAsync(PostController.getPostsHandler)
 )
 
 /**
  * Get single post
- * @param {string} path - router path
- * @param {function} swagger - set swagger config
- * @param {function} exception - run request controller and catch error
  */
 router.get(
   '/post/:postId',
-  setSwagger.getSinglePost,
+  setSwagger.getSinglePost, // set swagger config
   mw.catchAsync(PostController.getSinglePostHandler)
 )
 
 /**
  * Create a post with post id
- * @param {string} path - router path
- * @param {function} swagger - set swagger config
- * @param {function} exception - run request controller and catch error
  */
 router.post(
   '/post',
-  setSwagger.createPost,
+  setSwagger.createPost, // set swagger config
   mw.catchAsync(PostController.createPostHandler)
 )
 
 /**
  * Delete all posts
- * @param {string} path - router path
- * @param {function} swagger - set swagger config
- * @param {function} exception - run request controller and catch error
  */
 router.delete(
   '/posts',
-  setSwagger.deleteAllPosts,
+  setSwagger.deleteAllPosts, // set swagger config
   mw.catchAsync(PostController.deleteAllPostsHandler)
 )
 
 /**
  * Delete a post with post id
- * @param {string} path - router path
- * @param {function} swagger - set swagger config
- * @param {function} exception - run request controller and catch error
  */
 router.delete(
   '/post/:postId',
-  setSwagger.deleteSinglePost,
+  setSwagger.deleteSinglePost, // set swagger config
   mw.catchAsync(PostController.deleteSinglePostHandler)
 )
 
 /**
  * Update a post with post id
- * @param {string} path - router path
- * @param {function} swagger - set swagger config
- * @param {function} exception - run request controller and catch error
  */
 router.patch(
   '/post/:postId',
-  setSwagger.updatePost,
+  setSwagger.updatePost, // set swagger config
   mw.catchAsync(PostController.updatePostHandler)
 )
 

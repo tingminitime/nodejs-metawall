@@ -41,7 +41,7 @@ const schemaErrorHandler = (errors) => {
 }
 
 const catchErrorDev = (err, res) => {
-  res.status(err.status || 500).json({
+  res.status(err.status || 400).json({
     success: false,
     errorName: err.name,
     message: err.message || `Server Error or Invalid Request.`,
@@ -52,7 +52,7 @@ const catchErrorDev = (err, res) => {
 
 const catchErrorProd = (err, res) => {
   console.error(err)
-  res.status(err.status || 500).json({
+  res.status(err.status || 400).json({
     success: false,
     message: err.message || `Server Error or Invalid Request.`
   })

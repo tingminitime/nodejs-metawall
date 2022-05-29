@@ -103,6 +103,34 @@ const doc = {
     },
     updatePostBody: {
       $content: '貼文內容'
+    },
+    createUserSuccessfully: {
+      data: {
+
+      }
+    },
+    createUserBody: {
+
+    },
+    userLoginSuccessfully: {
+
+    },
+    userLoginBody: {
+
+    },
+    checkEmailSuccessfully: {
+      data: {
+        success: true
+      }
+    },
+    checkEmailBody: {
+
+    },
+    userUpdatePasswordSuccessfully: {
+
+    },
+    userUpdatePasswordBody: {
+
     }
   }
 }

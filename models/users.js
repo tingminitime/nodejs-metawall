@@ -1,11 +1,7 @@
 const mongoose = require('mongoose')
 const dayjs = require('dayjs')
-const utc = require('dayjs/plugin/utc')
-const timezone = require('dayjs/plugin/timezone')
 
 const { Schema } = mongoose
-dayjs.extend(utc)
-dayjs.extend(timezone)
 
 const schemaOptions = {
   collection: 'users',
@@ -14,25 +10,41 @@ const schemaOptions = {
 }
 
 const userSchema = new Schema({
-  userName: {
+  username: {
     type: String,
     required: [true, `name is required.`],
   },
   email: {
     type: String,
-    required: [true, `Email is required.`],
+    required: [true, `email is required.`],
     unique: true, // email must be unique.
-    select: false, // Do not show the important user info.
+    match: /.+\@.+\..+/,
     lowercase: false,
+    select: false, // Do not show the important user info.
+  },
+  password: {
+    type: String,
+    required: [true, `password is required.`],
+    minlength: 8,
+    select: false,
   },
   avatar: {
     type: String,
+    default: '',
+  },
+  sex: {
+    type: String,
+    enum: ['male', 'female'],
     default: '',
   },
   createdAtTw: {
     type: String,
     default: () => dayjs(Date.now()).tz('Asia/Taipei').format()
   },
+  lastUpdatedPasswordAtTW: {
+    type: String,
+    default: () => dayjs(Date.now()).tz('Asia/Taipei').format()
+  }
 }, schemaOptions)
 
 const User = mongoose.model('users', userSchema)

@@ -122,9 +122,118 @@ exports.updatePost = (req, res, next) => {
 
 exports.getUsers = (req, res, next) => {
   /**
-   * #swagger.tags = ['Users']
+   * #swagger.tags = ['User']
    * #swagger.description = '取得所有使用者資料'
    * #swagger.ignore = false
+   */
+
+  next()
+}
+
+
+exports.createUser = (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.description = '註冊帳號'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['body'] = {
+      in: 'body',
+      description: '資料格式',
+      type: 'object',
+      required: true,
+      schema: { $ref: '#/definitions/createUserBody' }
+    }
+   * #swagger.responses[400] = {
+      description: 'Register validation error.',
+      schema: { $ref: '#/definitions/commonError' }
+    }
+   * #swagger.responses[201] = {
+      description: '帳號註冊成功',
+      schema: { $ref: '#/definitions/createUserSuccessfully' }
+    }
+   */
+
+  next()
+}
+
+exports.userLogin = (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.description = '使用者登入'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['body'] = {
+      in: 'body',
+      description: '資料格式',
+      type: 'object',
+      required: true,
+      schema: { $ref: '#/definitions/userLoginBody' }
+    }
+   * #swagger.responses[400] = {
+      description: 'Register validation error.',
+      schema: { $ref: '#/definitions/commonError' }
+    }
+   * #swagger.responses[201] = {
+      description: '帳號註冊成功',
+      schema: { $ref: '#/definitions/userLoginSuccessfully' }
+    }
+   */
+
+  next()
+}
+
+exports.checkEmail = (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.description = '檢查 Email 是否重複'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['body'] = {
+      in: 'body',
+      description: '資料格式',
+      type: 'object',
+      required: true,
+      schema: { $ref: '#/definitions/checkEmailBody' }
+    }
+   * #swagger.responses[400] = {
+      description: 'The email already exists.',
+      schema: { $ref: '#/definitions/commonError' }
+    }
+   * #swagger.responses[201] = {
+      description: '',
+      schema: { $ref: '#/definitions/checkEmailSuccessfully' }
+    }
+   */
+
+  next()
+}
+
+exports.updateUserPassword = (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.description = '更新密碼'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['body'] = {
+      in: 'body',
+      description: '資料格式',
+      type: 'object',
+      required: true,
+      schema: { $ref: '#/definitions/userUpdatePasswordBody' }
+    }
+   * #swagger.responses[400] = {
+      description: 'Register validation error.',
+      schema: { $ref: '#/definitions/commonError' }
+    }
+   * #swagger.responses[201] = {
+      description: '密碼更新成功',
+      schema: { $ref: '#/definitions/userUpdatePasswordSuccessfully' }
+    }
    */
 
   next()

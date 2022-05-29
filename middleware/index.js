@@ -19,7 +19,7 @@ exports.catchAsync = (fn) => (req, res, next) => {
 }
 
 // Catch 404 not found
-exports.catchNotFount = (req, res, next) => {
+exports.catchNotFound = (req, res, next) => {
   errorHandler(res, 404, `Invalid request path.`)
 }
 
