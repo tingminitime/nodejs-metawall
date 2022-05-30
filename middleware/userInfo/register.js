@@ -1,5 +1,5 @@
 const validate = require('@utils/validate')
-const userSign = require('@utils/validate/userSign')
+const userInspection = require('@utils/validate/user')
 const { errorHandler } = require('@utils/response')
 
 // Validate register body format
@@ -12,20 +12,20 @@ exports.validateFormat = async (req, res, next) => {
     sex
   } = req.body
 
-  const result = validate.pipe(
-    userSign.validateUsername(username),
-    userSign.validateEmail(email),
-    userSign.validatePassword(password),
-    userSign.validateConfirmPassword(confirmPassword, password),
-    userSign.validateSex(sex)
+  const inspectResult = validate.pipe(
+    userInspection.validateUsername(username),
+    userInspection.validateEmail(email),
+    userInspection.validatePassword(password),
+    userInspection.validateConfirmPassword(confirmPassword, password),
+    userInspection.validateSex(sex)
   )
 
-  if (validate.validateStatus(result)) {
+  if (validate.validateStatus(inspectResult)) {
     errorHandler(
       res,
       400,
       `Register validations error.`,
-      validate.generateMessage(result, userSign.validateMessage),
+      validate.generateMessage(inspectResult, userInspection.validateMessage),
     )
   }
 

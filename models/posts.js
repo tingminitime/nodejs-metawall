@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const validator = require('validator')
 const dayjs = require('dayjs')
 const utc = require('dayjs/plugin/utc')
 const timezone = require('dayjs/plugin/timezone')
@@ -41,7 +42,18 @@ const postSchema = new Schema({
   },
   image: {
     type: String,
-    default: ''
+    default: '',
+    validate: {
+      validator: (v) => {
+        console.log('image v:', v)
+        const imageRegex = /\.(jpe?g|png|gif)$/i
+        if (v) {
+          return validator.isURL(v) && imageRegex.test(v)
+        }
+        return true
+      },
+      message: `'image' must be a valid url and extension must be 'jpg', 'jpeg', 'png', 'gif'`
+    }
   },
   content: {
     type: String,

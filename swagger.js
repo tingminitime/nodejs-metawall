@@ -104,6 +104,12 @@ const doc = {
     updatePostBody: {
       $content: '貼文內容'
     },
+    updateUserProfileSuccessfully: {
+
+    },
+    updateUserProfileBody: {
+
+    },
     createUserSuccessfully: {
       data: {
 
@@ -131,7 +137,13 @@ const doc = {
     },
     userUpdatePasswordBody: {
 
-    }
+    },
+    updateUserPostSuccessfully: {
+
+    },
+    updateUserPostBody: {
+
+    },
   }
 }
 

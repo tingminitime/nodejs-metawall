@@ -12,7 +12,8 @@
   },
   "_moduleAliases": {
     "@": ".",
-    "@utils": "./utils"
+    "@utils": "./utils",
+    "@models": "./models"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

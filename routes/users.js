@@ -1,26 +1,41 @@
 const express = require('express')
-
-// controllers
-const UserController = require('../controllers/users')
-
-// middleware
-const mw = require('../middleware')
-const setSwagger = require('../swagger/config')
-const jwtAuth = require('../middleware/auth/jwtAuth')
-const registerValidate = require('../middleware/users/register')
-const loginValidate = require('../middleware/users/login')
-const updatePasswordValidate = require('../middleware/users/updatePassword')
-
 const router = express.Router()
 
+// Controllers
+const UserInfoController = require('../controllers/userInfo')
+const UserPostController = require('../controllers/userPost')
+
+// Middleware - common
+const mw = require('../middleware')
+const setSwagger = require('../middleware/swagger/config')
+const jwtAuth = require('../middleware/auth/jwtAuth')
+
+// Middleware - validations
+const updateUserProfileInspect = require('../middleware/userInfo/updateUserProfile')
+const registerInspect = require('../middleware/userInfo/register')
+const loginInspect = require('../middleware/userInfo/login')
+const updatePasswordInspect = require('../middleware/userInfo/updatePassword')
+const updateUserPostInspect = require('../middleware/userPost/updatePost')
+
 /**
- * Get all users data
+ * Get user profile
  */
 router.get(
-  '/',
-  setSwagger.getUsers, // set swagger config
+  '/profile',
+  setSwagger.getUserProfile,
   mw.catchAsync(jwtAuth),
-  mw.catchAsync(UserController.getUsersHandler)
+  mw.catchAsync(UserInfoController.getUserProfileHandler)
+)
+
+/**
+ * Update user profile
+ */
+router.patch(
+  '/profile',
+  setSwagger.updateUserProfile,
+  mw.catchAsync(jwtAuth),
+  mw.catchAsync(updateUserProfileInspect.validateFormat),
+  mw.catchAsync(UserInfoController.updateUserProfileHandler)
 )
 
 /**
@@ -29,8 +44,8 @@ router.get(
 router.post(
   '/check-email',
   setSwagger.checkEmail, // set swagger config
-  mw.catchAsync(registerValidate.checkDuplicateEmail),
-  mw.catchAsync(UserController.checkEmailSuccessfully)
+  mw.catchAsync(registerInspect.checkDuplicateEmail),
+  mw.catchAsync(UserInfoController.checkEmailSuccessfully)
 )
 
 /**
@@ -39,10 +54,9 @@ router.post(
 router.post(
   '/register',
   setSwagger.createUser, // set swagger config
-  mw.catchAsync(registerValidate.checkDuplicateEmail),
-  mw.catchAsync(registerValidate.validateFormat),
-  // mw.catchAsync(encrypt),
-  mw.catchAsync(UserController.createUserHandler)
+  mw.catchAsync(registerInspect.checkDuplicateEmail),
+  mw.catchAsync(registerInspect.validateFormat),
+  mw.catchAsync(UserInfoController.createUserHandler)
 )
 
 /**
@@ -51,8 +65,8 @@ router.post(
 router.post(
   '/login',
   setSwagger.userLogin, // set swagger config
-  mw.catchAsync(loginValidate.validateFormat),
-  mw.catchAsync(UserController.userLoginHandler)
+  mw.catchAsync(loginInspect.validateFormat),
+  mw.catchAsync(UserInfoController.userLoginHandler)
 )
 
 /**
@@ -62,8 +76,19 @@ router.post(
   '/update-password',
   setSwagger.updateUserPassword, // set swagger config
   mw.catchAsync(jwtAuth),
-  mw.catchAsync(updatePasswordValidate.validateFormat),
-  mw.catchAsync(UserController.updateUserPassword)
+  mw.catchAsync(updatePasswordInspect.validateFormat),
+  mw.catchAsync(UserInfoController.updateUserPasswordHandler)
+)
+
+/**
+ * Update single post
+ */
+router.patch(
+  '/post/:postId',
+  setSwagger.updateUserPost,
+  mw.catchAsync(jwtAuth),
+  mw.catchAsync(updateUserPostInspect.validateOwnUser),
+  mw.catchAsync(UserPostController.updateUserPostHandler)
 )
 
 module.exports = router

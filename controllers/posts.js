@@ -1,4 +1,5 @@
 const Post = require('../models/posts')
+const User = require('../models/users')
 const {
   errorHandler,
   successHandler
@@ -23,7 +24,7 @@ exports.getPostsHandler = async (req, res, next) => {
         .sort({ createdAt: sort })
         .populate({
           path: 'user',
-          select: 'userName avatar'
+          select: 'username avatar'
         })
 
       successHandler(
@@ -48,7 +49,7 @@ exports.getPostsHandler = async (req, res, next) => {
         .sort({ createdAt: sort })
         .populate({
           path: 'user',
-          select: 'userName avatar'
+          select: 'username avatar'
         })
 
       successHandler(
@@ -85,7 +86,7 @@ exports.getSinglePostHandler = async (req, res, next) => {
       .findById(params.postId)
       .populate({
         path: 'user',
-        select: 'userName avatar'
+        select: 'username avatar'
       })
     // Maybe mongoDB will return success message but null result
     if (post) {
@@ -111,6 +112,9 @@ exports.getSinglePostHandler = async (req, res, next) => {
  */
 exports.createPostHandler = async (req, res, next) => {
   const reqData = req.body
+  const userId = req.userId
+  console.log(userId)
+
   if (!reqData || Object.keys(reqData).length === 0) {
     errorHandler(res, 400, `Empty request data.`)
     return
@@ -121,16 +125,11 @@ exports.createPostHandler = async (req, res, next) => {
     return
   }
 
-  if (!reqData.userId) {
-    errorHandler(res, 400, `Cannot send data without 'userId'.`)
-    return
-  }
-
-  const user = await User.exists({ _id: reqData.userId })
+  const user = await User.exists({ _id: userId })
   if (!user) throw new Error(`The userId does not exist.`)
 
   let newPost = await Post.create({
-    user: reqData.userId,
+    user: userId,
     tags: reqData.tags,
     type: reqData.type,
     image: reqData.image,
@@ -139,7 +138,7 @@ exports.createPostHandler = async (req, res, next) => {
 
   newPost = await newPost.populate({
     path: 'user',
-    select: 'userName avatar'
+    select: 'username avatar'
   })
 
   successHandler(
@@ -217,7 +216,7 @@ exports.updatePostHandler = async (req, res, next) => {
     { new: true, runValidators: true }
   ).populate({
     path: 'user',
-    select: 'userName avatar'
+    select: 'username avatar'
   })
 
   if (updatePost) {

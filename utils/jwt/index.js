@@ -1,6 +1,10 @@
 const jwt = require('jsonwebtoken')
 
-
+/**
+ * Generate JWT
+ * @param {object} Info id, name
+ * @returns {string} Token
+ */
 exports.generateJWT = function generateJWT({ id = '', name = '' }) {
   const token = jwt.sign(
     { id, name },
@@ -11,11 +15,14 @@ exports.generateJWT = function generateJWT({ id = '', name = '' }) {
   return token
 }
 
+/**
+ * Verify JWT
+ * @param {string} Info id, name
+ * @returns {error|object} error|payload
+ */
 exports.verifyJWT = function verifyJWT(token) {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-      console.log('verifyJWT:', err)
-      console.log('payload:', payload)
 
       switch (err?.name) {
         // Invalid token

@@ -1,7 +1,10 @@
 const express = require('express')
 const PostController = require('../controllers/posts')
 const mw = require('../middleware')
-const setSwagger = require('../swagger/config')
+
+// Middleware - common
+const setSwagger = require('../middleware/swagger/config')
+const jwtAuth = require('../middleware/auth/jwtAuth')
 
 const router = express.Router()
 
@@ -11,6 +14,7 @@ const router = express.Router()
 router.get(
   '/posts',
   setSwagger.getPosts, // set swagger config
+  mw.catchAsync(jwtAuth),
   mw.catchAsync(PostController.getPostsHandler)
 )
 
@@ -20,6 +24,7 @@ router.get(
 router.get(
   '/post/:postId',
   setSwagger.getSinglePost, // set swagger config
+  mw.catchAsync(jwtAuth),
   mw.catchAsync(PostController.getSinglePostHandler)
 )
 
@@ -29,6 +34,7 @@ router.get(
 router.post(
   '/post',
   setSwagger.createPost, // set swagger config
+  mw.catchAsync(jwtAuth),
   mw.catchAsync(PostController.createPostHandler)
 )
 

@@ -7,19 +7,49 @@ const {
 } = require('../utils/response')
 
 /**
- * [GET] Get user data
+ * [GET] Get user profile (Auth)
  */
-exports.getUsersHandler = async (req, res, next) => {
-  const users = await User.find()
+exports.getUserProfileHandler = async (req, res, next) => {
+  const userId = req.userId
+
+  const userProfile = await User.findById(userId)
+
+  if (!userProfile) {
+    errorHandler(res, 400, `Non-existent user.`)
+    return
+  }
 
   successHandler(
     res,
     200,
-    users,
-    `Get users successfully`,
-    {
-      total: users.length
-    }
+    userProfile,
+    `Get user profile successfully.`
+  )
+}
+
+/**
+ * [PATCH] Update user profile (Auth)
+ */
+exports.updateUserProfileHandler = async (req, res, next) => {
+  const { username, avatar, sex } = req.body
+  const userId = req.userId
+
+  const newProfile = await User.findByIdAndUpdate(
+    userId,
+    { username, avatar, sex },
+    { new: true, runValidators: true }
+  )
+
+  if (!newProfile) {
+    errorHandler(res, 400, `Non-existent user.`)
+    return
+  }
+
+  successHandler(
+    res,
+    200,
+    newProfile,
+    `Update user profile successfully.`
   )
 }
 
@@ -79,7 +109,7 @@ exports.userLoginHandler = async (req, res, next) => {
     .select('+email +password')
 
   if (!user) {
-    errorHandler(res, 401, `Non-existent email.`)
+    errorHandler(res, 400, `Non-existent email.`)
     return
   }
 
@@ -89,7 +119,10 @@ exports.userLoginHandler = async (req, res, next) => {
     return
   }
 
-  const token = jwtHandler.generateJWT({ id: user._id, name: user.userName })
+  const token = jwtHandler.generateJWT({
+    id: user._id,
+    name: user.userName
+  })
 
   successHandler(
     res,
@@ -106,9 +139,9 @@ exports.userLoginHandler = async (req, res, next) => {
 }
 
 /**
- * [POST] Update user password
+ * [POST] Update user password (Auth)
  */
-exports.updateUserPassword = async (req, res, next) => {
+exports.updateUserPasswordHandler = async (req, res, next) => {
   const { password } = req.body
 
   const encryptPassword = await encryptions.encrypt(password)
@@ -121,14 +154,15 @@ exports.updateUserPassword = async (req, res, next) => {
     { new: true, runValidators: true }
   )
 
-  if (user) {
-    successHandler(
-      res,
-      200,
-      user,
-      `${user.username} update password successfully.`
-    )
-  } else {
+  if (!user) {
     errorHandler(res, 400, `Non-existent user.`)
+    return
   }
+
+  successHandler(
+    res,
+    200,
+    user,
+    `Update password successfully.`
+  )
 }

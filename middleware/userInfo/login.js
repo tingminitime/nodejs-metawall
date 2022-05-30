@@ -1,5 +1,5 @@
 const validate = require('@utils/validate')
-const userSign = require('@utils/validate/userSign')
+const userInspection = require('@utils/validate/user')
 const { errorHandler } = require('@utils/response')
 
 // Validate login body format
@@ -9,17 +9,17 @@ exports.validateFormat = async (req, res, next) => {
     password
   } = req.body
 
-  const result = validate.pipe(
-    userSign.validateEmail(email),
-    userSign.validatePassword(password),
+  const inspectResult = validate.pipe(
+    userInspection.validateEmail(email),
+    userInspection.validatePassword(password),
   )
 
-  if (validate.validateStatus(result)) {
+  if (validate.validateStatus(inspectResult)) {
     errorHandler(
       res,
       400,
       `Login validations error.`,
-      validate.generateMessage(result, userSign.validateMessage),
+      validate.generateMessage(inspectResult, userInspection.validateMessage),
     )
   }
 
