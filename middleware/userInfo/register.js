@@ -36,7 +36,7 @@ exports.validateFormat = async (req, res, next) => {
 exports.checkDuplicateEmail = async (req, res, next) => {
   const { email } = req.body
 
-  const checkEmailFormat = userSign.validateEmail(email)()
+  const checkEmailFormat = userInspection.validateEmail(email)()
   if (!checkEmailFormat) {
     errorHandler(
       res,
@@ -46,7 +46,7 @@ exports.checkDuplicateEmail = async (req, res, next) => {
     return
   }
 
-  const checkDuplicateEmail = await userSign.checkDuplicateEmail(email)
+  const checkDuplicateEmail = await userInspection.checkDuplicateEmail(email)
   if (checkDuplicateEmail) {
     errorHandler(
       res,

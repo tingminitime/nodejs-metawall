@@ -1,3 +1,6 @@
+/**
+ * PUBLIC POST OPERATION
+ */
 exports.getPosts = (req, res, next) => {
   /**
    * #swagger.tags = ['Posts - 貼文']
@@ -60,9 +63,22 @@ exports.getSinglePost = (req, res, next) => {
   next()
 }
 
-exports.createPost = (req, res, next) => {
+exports.deleteAllPosts = (req, res, next) => {
   /**
    * #swagger.tags = ['Posts - 貼文']
+   * #swagger.description = '刪除全部貼文資料'
+   */
+
+  next()
+}
+
+
+/**
+ * USER OPERATION
+ */
+exports.createPost = (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
    * #swagger.description = '新增單筆貼文資料'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -87,10 +103,28 @@ exports.createPost = (req, res, next) => {
   next()
 }
 
-exports.deleteAllPosts = (req, res, next) => {
+exports.updatePost = (req, res, next) => {
   /**
-   * #swagger.tags = ['Posts - 貼文']
-   * #swagger.description = '刪除全部貼文資料'
+   * #swagger.tags = ['User Post']
+   * #swagger.description = '更新貼文資訊'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['body'] = {
+      in: 'body',
+      description: '資料格式',
+      type: 'object',
+      required: true,
+      schema: { $ref: '#/definitions/updateUserPostBody' }
+    }
+   * #swagger.responses[400] = {
+      description: 'Register validation error.',
+      schema: { $ref: '#/definitions/commonError' }
+    }
+   * #swagger.responses[200] = {
+      description: '貼文更新成功',
+      schema: { $ref: '#/definitions/updateUserPostSuccessfully' }
+    }
    */
 
   next()
@@ -98,23 +132,8 @@ exports.deleteAllPosts = (req, res, next) => {
 
 exports.deleteSinglePost = (req, res, next) => {
   /**
-   * #swagger.tags = ['Posts - 貼文']
+   * #swagger.tags = ['User']
    * #swagger.description = '刪除單筆貼文資料'
-   */
-
-  next()
-}
-
-exports.updatePost = (req, res, next) => {
-  /**
-   * #swagger.tags = ['Posts - 貼文']
-   * #swagger.description = '更新單筆貼文資料'
-   * #swagger.parameters['body'] = {
-      in: 'body',
-      description: '資料格式',
-      required: true,
-      schema: { $ref: '#/definitions/updatePostBody' }
-    }
    */
 
   next()
@@ -261,33 +280,6 @@ exports.updateUserPassword = (req, res, next) => {
    * #swagger.responses[201] = {
       description: '密碼更新成功',
       schema: { $ref: '#/definitions/userUpdatePasswordSuccessfully' }
-    }
-   */
-
-  next()
-}
-
-exports.updateUserPost = (req, res, next) => {
-  /**
-   * #swagger.tags = ['User Post']
-   * #swagger.description = '更新貼文資訊'
-   * #swagger.security = [{
-      "apiKeyAuth": []
-    }]
-   * #swagger.parameters['body'] = {
-      in: 'body',
-      description: '資料格式',
-      type: 'object',
-      required: true,
-      schema: { $ref: '#/definitions/updateUserPostBody' }
-    }
-   * #swagger.responses[400] = {
-      description: 'Register validation error.',
-      schema: { $ref: '#/definitions/commonError' }
-    }
-   * #swagger.responses[200] = {
-      description: '貼文更新成功',
-      schema: { $ref: '#/definitions/updateUserPostSuccessfully' }
     }
    */
 

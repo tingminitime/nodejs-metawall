@@ -24,16 +24,14 @@ const postSchema = new Schema({
   user,
   tags: {
     type: [String],
-    default: undefined,
+    default: [],
     validate: {
       validator: (v) => {
-        if (Array.isArray(v) && v.length === 0) return false
-        else if (v.some(text => text === '')) return false
+        if (v.some(text => text === '')) return false
         else return true
       },
       message: `Invalid tags format.`
     },
-    required: [true, `'tags' is required`]
   },
   type: {
     type: String,
@@ -42,7 +40,7 @@ const postSchema = new Schema({
   },
   image: {
     type: String,
-    default: '',
+    default: undefined,
     validate: {
       validator: (v) => {
         console.log('image v:', v)

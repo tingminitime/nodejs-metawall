@@ -93,7 +93,8 @@ exports.validatePostImage = (inputImage = '') => {
   const imageRegex = /\.(jpe?g|png|gif)$/i
 
   return function image() {
-    return validator.isURL(inputImage) && imageRegex.test(inputImage)
+    return inputImage === ''
+      || (validator.isURL(inputImage) && imageRegex.test(inputImage))
   }
 }
 
@@ -108,6 +109,17 @@ exports.validatePostType = (inputType = '') => {
   }
 }
 
+/**
+ * @param {string} inputTags
+ * @returns {boolean}
+ */
+exports.validatePostTags = (inputTags = []) => {
+  return function tags() {
+    return Array.isArray(inputTags)
+      && !inputTags.some(tag => !tag)
+  }
+}
+
 exports.validateMessage = () => {
   return {
     username: `'username' must be at least 3 characters.`,
@@ -118,5 +130,7 @@ exports.validateMessage = () => {
     sex: `'sex' must be 'male' or 'female'`,
     content: `'content' cannot be empty.`,
     image: `'image' must be a valid url and extension must be 'jpg', 'jpeg', 'png', 'gif'`,
+    type: `'type' is required and must be 'person' or 'group'.`,
+    tags: `'tags' must be an array and cannot be empty if have value.`,
   }
 }

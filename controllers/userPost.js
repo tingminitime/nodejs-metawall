@@ -5,6 +5,35 @@ const {
   successHandler
 } = require('../utils/response')
 
+exports.createUserPostHandler = async (req, res, next) => {
+  const reqData = req.body
+  const userId = req.userId
+  console.log(userId)
+
+  const user = await User.exists({ _id: userId })
+  if (!user) throw new Error(`The userId does not exist.`)
+
+  let newPost = await Post.create({
+    user: userId,
+    tags: reqData.tags,
+    type: reqData.type,
+    image: reqData.image,
+    content: reqData.content,
+  })
+
+  newPost = await newPost.populate({
+    path: 'user',
+    select: 'username avatar'
+  })
+
+  successHandler(
+    res,
+    201,
+    newPost,
+    `Create post successfully.`
+  )
+}
+
 /**
  * [PATCH] Update single post
  */
@@ -41,4 +70,32 @@ exports.updateUserPostHandler = async (req, res, next) => {
   } else {
     errorHandler(res, 400, `Cannot find the post by this Id or connect error.`)
   }
+}
+
+/**
+ * [DELETE] Delete single post
+ */
+exports.deleteUserPostHandler = async (req, res, next) => {
+  const { postId } = req.params
+  if (!postId) {
+    errorHandler(res, 400, `Delete unsuccessfully, no Id exist.`)
+    return
+  }
+
+  const deletePost = await Post.findByIdAndDelete({ _id: postId })
+    .populate({
+      path: 'user',
+      select: 'username avatar'
+    })
+  if (!deletePost) throw new Error(`Cannot find the post by this Id.`)
+  successHandler(
+    res,
+    200,
+    deletePost,
+    `Delete one post: userId: ${deletePost.user._id} postId:${deletePost._id}`,
+    {
+      userId: deletePost.user._id,
+      postId: deletePost._id,
+    }
+  )
 }

@@ -1,7 +1,7 @@
 const Post = require('@models/posts')
 const { errorHandler } = require('@utils/response')
 
-exports.validateOwnUser = async (req, res, next) => {
+const verifyPostOwnUser = async (req, res, next) => {
   const { postId } = req.params
   const userId = req.userId
   console.log(postId, userId)
@@ -21,3 +21,5 @@ exports.validateOwnUser = async (req, res, next) => {
 
   next()
 }
+
+module.exports = verifyPostOwnUser

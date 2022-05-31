@@ -15,8 +15,10 @@ const updateUserProfileInspect = require('../middleware/userInfo/updateUserProfi
 const registerInspect = require('../middleware/userInfo/register')
 const loginInspect = require('../middleware/userInfo/login')
 const updatePasswordInspect = require('../middleware/userInfo/updatePassword')
-const updateUserPostInspect = require('../middleware/userPost/updatePost')
+const verifyPostOwnUser = require('../middleware/userPost/verifyPostOwner')
+const createUserPostInspect = require('../middleware/userPost/createPost')
 
+// USER INFO ROUTER
 /**
  * Get user profile
  */
@@ -80,15 +82,39 @@ router.post(
   mw.catchAsync(UserInfoController.updateUserPasswordHandler)
 )
 
+
+// USER POST ROUTER
+/**
+ * Create single post
+ */
+router.post(
+  '/post/create',
+  setSwagger.createPost,
+  mw.catchAsync(jwtAuth),
+  mw.catchAsync(createUserPostInspect.validateFormat),
+  mw.catchAsync(UserPostController.createUserPostHandler)
+)
+
 /**
  * Update single post
  */
 router.patch(
   '/post/:postId',
-  setSwagger.updateUserPost,
+  setSwagger.updatePost,
   mw.catchAsync(jwtAuth),
-  mw.catchAsync(updateUserPostInspect.validateOwnUser),
+  mw.catchAsync(verifyPostOwnUser),
   mw.catchAsync(UserPostController.updateUserPostHandler)
+)
+
+/**
+ * Delete single post
+ */
+router.delete(
+  '/post/:postId',
+  setSwagger.deleteSinglePost,
+  mw.catchAsync(jwtAuth),
+  mw.catchAsync(verifyPostOwnUser),
+  mw.catchAsync(UserPostController.deleteUserPostHandler)
 )
 
 module.exports = router
