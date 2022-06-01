@@ -12,7 +12,7 @@ const {
 exports.getUserProfileHandler = async (req, res, next) => {
   const userId = req.userId
 
-  const userProfile = await User.findById(userId)
+  const userProfile = await User.findById(userId).select('+email')
 
   if (!userProfile) {
     errorHandler(res, 400, `Non-existent user.`)
@@ -143,9 +143,20 @@ exports.userLoginHandler = async (req, res, next) => {
  */
 exports.updateUserPasswordHandler = async (req, res, next) => {
   const { password } = req.body
+  const userId = req.userId
+
+  // --- Reject user use old password ---
+  const user = await User.findById(userId).select('password')
+  const isSamePassword = await encryptions.compare(password, user.password)
+
+  if (isSamePassword) {
+    errorHandler(res, 400, `Cannot use old password.`)
+    return
+  }
+  // ------
 
   const encryptPassword = await encryptions.encrypt(password)
-  const user = await User.findByIdAndUpdate(
+  const updatedUser = await User.findByIdAndUpdate(
     { _id: req.userId },
     {
       password: encryptPassword,
@@ -154,7 +165,7 @@ exports.updateUserPasswordHandler = async (req, res, next) => {
     { new: true, runValidators: true }
   )
 
-  if (!user) {
+  if (!updatedUser) {
     errorHandler(res, 400, `Non-existent user.`)
     return
   }
@@ -162,7 +173,7 @@ exports.updateUserPasswordHandler = async (req, res, next) => {
   successHandler(
     res,
     200,
-    user,
+    updatedUser,
     `Update password successfully.`
   )
 }

@@ -4,10 +4,8 @@ const { errorHandler } = require('@utils/response')
 const verifyPostOwnUser = async (req, res, next) => {
   const { postId } = req.params
   const userId = req.userId
-  console.log(postId, userId)
 
   const post = await Post.findById(postId)
-  console.log('validateOwnUser post:', post)
 
   if (!post) {
     errorHandler(res, 400, `Cannot find the post by this Id.`)

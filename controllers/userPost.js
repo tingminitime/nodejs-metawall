@@ -8,7 +8,6 @@ const {
 exports.createUserPostHandler = async (req, res, next) => {
   const reqData = req.body
   const userId = req.userId
-  console.log(userId)
 
   const user = await User.exists({ _id: userId })
   if (!user) throw new Error(`The userId does not exist.`)

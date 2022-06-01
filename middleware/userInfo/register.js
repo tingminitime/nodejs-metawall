@@ -41,7 +41,7 @@ exports.checkDuplicateEmail = async (req, res, next) => {
     errorHandler(
       res,
       400,
-      `Email format validation error.`
+      `'email' is not valid.`
     )
     return
   }

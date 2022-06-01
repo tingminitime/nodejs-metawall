@@ -43,7 +43,6 @@ const postSchema = new Schema({
     default: undefined,
     validate: {
       validator: (v) => {
-        console.log('image v:', v)
         const imageRegex = /\.(jpe?g|png|gif)$/i
         if (v) {
           return validator.isURL(v) && imageRegex.test(v)
