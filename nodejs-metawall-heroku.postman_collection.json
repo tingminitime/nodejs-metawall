@@ -1,207 +1,485 @@
 {
 	"info": {
-		"_postman_id": "18fdf396-6df2-4212-85d7-1f9b5145073c",
+		"_postman_id": "d1854f1f-fa9c-48e7-9c2a-924cd3361f99",
 		"name": "nodejs-metawall-heroku",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "15224824"
 	},
 	"item": [
 		{
-			"name": "Get all posts",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{herokuURL}}/api/posts?pageSize=10&currentPage=1&descending=true",
-					"host": [
-						"{{herokuURL}}"
-					],
-					"path": [
-						"api",
-						"posts"
-					],
-					"query": [
-						{
-							"key": "pageSize",
-							"value": "10"
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get profile ( Auth )",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
 						},
-						{
-							"key": "currentPage",
-							"value": "1"
-						},
-						{
-							"key": "descending",
-							"value": "true"
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{herokuURL}}/api/user/profile",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile"
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all posts include keyword",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{herokuURL}}/api/posts?pageSize=10&currentPage=1&keyword=2&descending=false",
-					"host": [
-						"{{herokuURL}}"
-					],
-					"path": [
-						"api",
-						"posts"
-					],
-					"query": [
-						{
-							"key": "pageSize",
-							"value": "10"
-						},
-						{
-							"key": "currentPage",
-							"value": "1"
-						},
-						{
-							"key": "keyword",
-							"value": "2"
-						},
-						{
-							"key": "descending",
-							"value": "false"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get single post",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{herokuURL}}/api/post/628e6934edf187d18f0bf24c",
-					"host": [
-						"{{herokuURL}}"
-					],
-					"path": [
-						"api",
-						"post",
-						"628e6934edf187d18f0bf24c"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "add post ( with user )",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"userId\": \"627e98178889cb0440a73812\",\r\n    \"tags\": [\"卯咪\"],\r\n    \"type\": \"person\",\r\n    \"image\": \"https://picsum.photos/200/300?random=1\",\r\n    \"content\": \"測試貼文3\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{herokuURL}}/api/post",
-					"host": [
-						"{{herokuURL}}"
-					],
-					"path": [
-						"api",
-						"post"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete all post",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{herokuURL}}/api/posts",
-					"host": [
-						"{{herokuURL}}"
-					],
-					"path": [
-						"api",
-						"posts"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete single post",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{herokuURL}}/api/post/628e6952edf187d18f0bf258",
-					"host": [
-						"{{herokuURL}}"
-					],
-					"path": [
-						"api",
-						"post",
-						"628e6952edf187d18f0bf258"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update single post",
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"userId\": null,\r\n    \"content\": \"測試貼文222\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Update profile ( Auth )",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Tim\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{herokuURL}}/api/user/profile",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{herokuURL}}/api/post/628e6934edf187d18f0bf24c",
-					"host": [
-						"{{herokuURL}}"
+				{
+					"name": "Add user ( Auto Save Token )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();\r",
+									"if (res?.data?.token) {\r",
+									"    pm.collectionVariables.set(\"jwt_token\", res.data.token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
 					],
-					"path": [
-						"api",
-						"post",
-						"628e6934edf187d18f0bf24c"
-					]
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Tim2\",\r\n    \"email\": \"tim@xxx.ooo\",\r\n    \"password\": \"asd123456\",\r\n    \"confirmPassword\": \"asd123456\",\r\n    \"sex\": \"male\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{herokuURL}}/api/user/register",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login ( Auto Save Token )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();\r",
+									"if (res?.data?.token) {\r",
+									"    pm.collectionVariables.set(\"jwt_token\", res.data.token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"tim@xxx.ooo\",\r\n    \"password\": \"asd123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{herokuURL}}/api/user/login",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"tim@xxx.ooo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{herokuURL}}/api/user/check-email",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"check-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update password ( Auth )",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"asd123456\",\r\n    \"confirmPassword\": \"asd123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{herokuURL}}/api/user/update-password",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"update-password"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Get all users",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{herokuURL}}/api/users",
-					"host": [
-						"{{herokuURL}}"
-					],
-					"path": [
-						"api",
-						"users"
-					]
+			"name": "User Posts",
+			"item": [
+				{
+					"name": "Create Post ( Auth )",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"person\",\r\n    \"image\": \"https://i.imgur.com/CEXdkfO.jpg\",\r\n    \"content\": \"測試貼文2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{herokuURL}}/api/user/post/create",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"post",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update single post ( Auth )",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"測試貼文11\",\r\n    \"image\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{herokuURL}}/api/user/post/6294d8bf76664cfcf571935c",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"post",
+								"6294d8bf76664cfcf571935c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete single post ( Auth )",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{herokuURL}}/api/user/post/6296dfd64a3d5f9562efdc6f",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"post",
+								"6296dfd64a3d5f9562efdc6f"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Get all posts ( Auth )",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{herokuURL}}/api/posts?pageSize=10&currentPage=1&descending=true",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "currentPage",
+									"value": "1"
+								},
+								{
+									"key": "descending",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get keyword posts ( Auth )",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{herokuURL}}/api/posts?pageSize=10&currentPage=1&keyword=2&descending=false",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "currentPage",
+									"value": "1"
+								},
+								{
+									"key": "keyword",
+									"value": "2"
+								},
+								{
+									"key": "descending",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single post ( Auth )",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{herokuURL}}/api/post/6296408441dcbeadd0d1c707",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"6296408441dcbeadd0d1c707"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all post ( Test )",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{herokuURL}}/api/posts",
+							"host": [
+								"{{herokuURL}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -225,6 +503,10 @@
 		}
 	],
 	"variable": [
+		{
+			"key": "jwt_token",
+			"value": ""
+		},
 		{
 			"key": "herokuURL",
 			"value": "https://nodejs-metawall.herokuapp.com",
