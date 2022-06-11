@@ -285,3 +285,43 @@ exports.updateUserPassword = (req, res, next) => {
 
   next()
 }
+
+exports.uploadImage = (req, res, next) => {
+  /**
+   * #swagger.tags = ['Upload']
+   * #swagger.description = '上傳圖片'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.consumes = ['multipart/form-data']
+   * #swagger.parameters['singleFile'] = {
+      in: 'formData',
+      description: '貼文圖片',
+      type: 'file',
+      required: true,
+      schema: { $ref: '#/definitions/uploadImageBody' }
+    }
+   */
+
+  next()
+}
+
+exports.uploadAvatar = (req, res, next) => {
+  /**
+   * #swagger.tags = ['Upload']
+   * #swagger.description = '上傳大頭貼'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.consumes = ['multipart/form-data']
+   * #swagger.parameters['singleFile'] = {
+      in: 'formData',
+      description: '大頭貼圖片',
+      type: 'file',
+      required: true,
+      schema: { $ref: '#/definitions/uploadImageBody' }
+    }
+   */
+
+  next()
+}

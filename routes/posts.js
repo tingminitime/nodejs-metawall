@@ -1,8 +1,8 @@
 const express = require('express')
 const PostController = require('../controllers/posts')
-const mw = require('../middleware')
 
 // Middleware - common
+const mw = require('../middleware')
 const setSwagger = require('../middleware/swagger/config')
 const jwtAuth = require('../middleware/auth/jwtAuth')
 

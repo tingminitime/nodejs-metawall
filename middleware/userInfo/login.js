@@ -21,6 +21,7 @@ exports.validateFormat = async (req, res, next) => {
       `Login validations error.`,
       validate.generateMessage(inspectResult, userInspection.validateMessage),
     )
+    return
   }
 
   next()

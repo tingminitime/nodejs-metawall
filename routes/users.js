@@ -74,7 +74,7 @@ router.post(
 /**
  * Update user password
  */
-router.post(
+router.patch(
   '/update-password',
   setSwagger.updateUserPassword, // set swagger config
   mw.catchAsync(jwtAuth),

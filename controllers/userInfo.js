@@ -2,9 +2,7 @@ const User = require('../models/users')
 const encryptions = require('@utils/encryptions')
 const jwtHandler = require('@utils/jwt')
 const dayjs = require('dayjs')
-const {
-  successHandler, errorHandler
-} = require('../utils/response')
+const { successHandler, errorHandler } = require('../utils/response')
 
 /**
  * [GET] Get user profile (Auth)

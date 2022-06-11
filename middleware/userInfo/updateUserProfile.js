@@ -45,6 +45,7 @@ exports.validateFormat = async (req, res, next) => {
       `Update user profile validations error.`,
       validate.generateMessage(inspectResult, userInspection.validateMessage),
     )
+    return
   }
 
   next()

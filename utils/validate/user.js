@@ -35,7 +35,17 @@ exports.validateEmail = (inputEmail = '') => {
  */
 exports.validatePassword = (inputPassword = '') => {
   return function password() {
-    return validator.isLength(inputPassword.trim(), { min: 8 })
+    // return validator.isLength(inputPassword.trim(), { min: 8 })
+    return validator.isStrongPassword(
+      inputPassword.trim(),
+      {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 0,
+        minNumbers: 1,
+        minSymbols: 0,
+      }
+    )
   }
 }
 
@@ -124,7 +134,7 @@ exports.validateMessage = () => {
   return {
     username: `'username' must be at least 3 characters.`,
     email: `'email' is not valid.`,
-    password: `'password' must be at least 8 characters.`,
+    password: `'password' must contain at least 1 lower case letter, numeric, 8 characters.`,
     confirmPassword: `'confirmPassword' must be equal to password.`,
     avatar: `'avatar' must be a valid url and extension must be 'jpg', 'jpeg', 'png', 'gif', 'bmp'`,
     sex: `'sex' must be 'male' or 'female'`,

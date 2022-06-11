@@ -26,6 +26,7 @@ require('./connections')
 // Router
 const postsRouter = require('./routes/posts')
 const usersRouter = require('./routes/users')
+const uploadRouter = require('./routes/upload')
 
 // Express Instance
 const app = express()
@@ -50,6 +51,7 @@ const swaggerFile = process.env.NODE_ENV === 'production'
 // Route settings
 app.use('/api', postsRouter)
 app.use('/api/user', usersRouter)
+app.use('/api/upload', uploadRouter)
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 // Catch 404 not found when routes above do not exist.

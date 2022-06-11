@@ -18,6 +18,7 @@ exports.validateFormat = async (req, res, next) => {
       `Update password validations error.`,
       validate.generateMessage(inspectResult, userInspection.validateMessage),
     )
+    return
   }
 
   next()

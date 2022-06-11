@@ -27,6 +27,7 @@ exports.validateFormat = async (req, res, next) => {
       `Register validations error.`,
       validate.generateMessage(inspectResult, userInspection.validateMessage),
     )
+    return
   }
 
   next()
@@ -53,7 +54,8 @@ exports.checkDuplicateEmail = async (req, res, next) => {
       400,
       `The email already exists.`
     )
-  } else {
-    next()
+    return
   }
+
+  next()
 }

@@ -144,6 +144,12 @@ const doc = {
     updateUserPostBody: {
 
     },
+    uploadImageBody: {
+      $image: 'base64 file',
+    },
+    uploadAvatarBody: {
+      $image: 'base64 file',
+    },
   }
 }
 
