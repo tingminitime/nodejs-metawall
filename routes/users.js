@@ -4,6 +4,7 @@ const router = express.Router()
 // Controllers
 const UserInfoController = require('../controllers/userInfo')
 const UserPostController = require('../controllers/userPost')
+const UserActivityController = require('../controllers/userActivity')
 
 // Middleware - common
 const mw = require('../middleware')
@@ -17,6 +18,7 @@ const loginInspect = require('../middleware/userInfo/login')
 const updatePasswordInspect = require('../middleware/userInfo/updatePassword')
 const verifyPostOwnUser = require('../middleware/userPost/verifyPostOwner')
 const createUserPostInspect = require('../middleware/userPost/createPost')
+const followUserInspect = require('../middleware/userActivity/followUser')
 
 // USER INFO ROUTER
 /**
@@ -116,5 +118,39 @@ router.delete(
   mw.catchAsync(verifyPostOwnUser),
   mw.catchAsync(UserPostController.deleteUserPostHandler)
 )
+
+/**
+ * Get user liked posts
+ */
+router.get(
+  '/post/liked',
+  setSwagger.getLikedPosts,
+  mw.catchAsync(jwtAuth),
+  mw.catchAsync(UserPostController.getLikedPostsHandler)
+)
+
+/**
+ * Follow other user
+ */
+router.post(
+  '/post/follow/:followUserId',
+  setSwagger.followUser,
+  mw.catchAsync(jwtAuth),
+  mw.catchAsync(followUserInspect.checkDuplicateFollowing),
+  mw.catchAsync(UserActivityController.followUserHandler)
+)
+
+
+/**
+ * Cancel follow other user
+ */
+router.delete(
+  '/post/follow/:followUserId',
+  setSwagger.cancelFollowUser,
+  mw.catchAsync(jwtAuth),
+  mw.catchAsync(followUserInspect.checkFollowUserExist),
+  mw.catchAsync(UserActivityController.CancelFollowUserHandler)
+)
+
 
 module.exports = router

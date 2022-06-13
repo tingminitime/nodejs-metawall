@@ -63,6 +63,40 @@ exports.getSinglePost = (req, res, next) => {
   next()
 }
 
+exports.likePost = (req, res, next) => {
+  /**
+   * #swagger.tags = ['Posts - 貼文']
+   * #swagger.description = '對貼文按喜歡'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['postId'] = {
+      in: 'query',
+      description: '喜歡的貼文 id',
+      required: true,
+    }
+   */
+
+  next()
+}
+
+exports.cancelLikePost = (req, res, next) => {
+  /**
+   * #swagger.tags = ['Posts - 貼文']
+   * #swagger.description = '對貼文取消喜歡'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['postId'] = {
+      in: 'query',
+      description: '取消喜歡的貼文 id',
+      required: true,
+    }
+   */
+
+  next()
+}
+
 exports.deleteAllPosts = (req, res, next) => {
   /**
    * #swagger.tags = ['Posts - 貼文']
@@ -134,6 +168,77 @@ exports.deleteSinglePost = (req, res, next) => {
   /**
    * #swagger.tags = ['User']
    * #swagger.description = '刪除單筆貼文資料'
+   */
+
+  next()
+}
+
+exports.getLikedPosts = (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.description = '取得使用者按讚文章資料'
+   * #swagger.parameters['pageSize'] = {
+      in: 'query',
+      description: '一頁顯示幾筆',
+      required: true,
+      type: 'number',
+      format: 'int64'
+    }
+   * #swagger.parameters['currentPage'] = {
+      in: 'query',
+      description: '當前頁碼',
+      required: true,
+      type: 'number',
+      format: 'int64'
+    }
+   * #swagger.parameters['keyword'] = {
+      in: 'query',
+      description: '貼文搜尋關鍵字',
+      type: 'string'
+    }
+   * #swagger.parameters['descending'] = {
+      in: 'query',
+      description: '貼文排序是否依發布時間降冪',
+      type: 'boolean'
+    }
+   * #swagger.responses[400] = {
+      description: '錯誤請求',
+      schema: { $ref: '#/definitions/commonError' }
+    }
+   */
+
+  next()
+}
+
+exports.followUser = (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.description = '追隨使用者'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['postId'] = {
+      in: 'query',
+      description: '追隨使用者 id',
+      required: true,
+    }
+   */
+
+  next()
+}
+
+exports.cancelFollowUser = (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.description = '取消追隨使用者'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['postId'] = {
+      in: 'query',
+      description: '取消追隨使用者 id',
+      required: true,
+    }
    */
 
   next()

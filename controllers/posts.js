@@ -1,5 +1,7 @@
 const Post = require('../models/posts')
 const User = require('../models/users')
+// const UserActivity = require('../models/userActivities')
+const dayjs = require('dayjs')
 const {
   errorHandler,
   successHandler
@@ -10,60 +12,39 @@ const {
  * all posts, keyword search, pagination search
  */
 exports.getPostsHandler = async (req, res, next) => {
-  const { query } = req
+  const { pageSize, currentPage, descending, keyword } = req.query
 
   // If params hasn't Id, have to give pagination query. (pageSize, currentPage)
-  if (query.pageSize && query.currentPage) {
-    const sort = query.descending ? -1 : 1
+  if (pageSize && currentPage) {
+    const sort = descending ? -1 : 1
+    const findConditions = {}
+    let count = undefined
     // Keywords search
-    if (query.keyword) {
-      const posts = await Post
-        .find({ content: { $regex: query.keyword } })
-        .skip(query.pageSize * (query.currentPage - 1))
-        .limit(query.pageSize)
-        .sort({ createdAt: sort })
-        .populate({
-          path: 'user',
-          select: 'username avatar'
-        })
-
-      successHandler(
-        res,
-        200,
-        posts,
-        `Get posts successfully`,
-        {
-          total: posts.length,
-          pageSize: Number(query.pageSize),
-          currentPage: Number(query.currentPage)
-        }
-      )
+    if (keyword) {
+      count = await Post.count({})
+      findConditions.content = { $regex: keyword }
     }
-    // No keywords search
-    else {
-      const count = await Post.count({})
-      const posts = await Post
-        .find()
-        .skip(query.pageSize * (query.currentPage - 1))
-        .limit(query.pageSize)
-        .sort({ createdAt: sort })
-        .populate({
-          path: 'user',
-          select: 'username avatar'
-        })
+    const posts = await Post
+      .find(findConditions)
+      .skip(pageSize * (currentPage - 1))
+      .limit(pageSize)
+      .sort({ createdAt: sort })
+      .populate({
+        path: 'user',
+        select: 'username avatar'
+      })
 
-      successHandler(
-        res,
-        200,
-        posts,
-        `Get posts successfully`,
-        {
-          total: count,
-          pageSize: Number(query.pageSize),
-          currentPage: Number(query.currentPage)
-        }
-      )
-    }
+    successHandler(
+      res,
+      200,
+      posts,
+      `Get posts successfully`,
+      {
+        total: keyword ? count : posts.length,
+        pageSize: Number(pageSize),
+        currentPage: Number(currentPage)
+      }
+    )
   }
   else {
     errorHandler(
@@ -105,6 +86,83 @@ exports.getSinglePostHandler = async (req, res, next) => {
       `Ensure that the query has 'pageSize' and 'currentPage'.`
     )
   }
+}
+
+/**
+ * [POST] Like a post
+ */
+exports.likePostHandler = async (req, res, next) => {
+  const { postId } = req.params
+  const userId = req.userId
+
+  const likedPost = await Post.findByIdAndUpdate(
+    { _id: postId },
+    {
+      $addToSet: {
+        likes: userId,
+      },
+    },
+    { new: true, runValidators: true }
+  ).populate({
+    path: 'user',
+    select: 'username avatar'
+  }).populate({
+    path: 'likes',
+    select: 'username avatar'
+  })
+
+  if (likedPost) {
+    likedPost._doc.likesCount = likedPost.likes.length
+    successHandler(
+      res,
+      201,
+      likedPost,
+      `Like this post (${likedPost._id}) successfully.`
+    )
+  } else {
+    errorHandler(res, 400, `Cannot find the post by this Id or connect error.`)
+  }
+}
+
+/**
+ * [DELETE] Cancel like to the post
+ */
+exports.cancelLikePostHandler = async (req, res, next) => {
+  const { postId } = req.params
+  const userId = req.userId
+
+  const cancelLikePost = await Post.findByIdAndUpdate(
+    { _id: postId },
+    {
+      $pull: { likes: userId }
+    },
+    { new: true, runValidators: true }
+  ).populate({
+    path: 'user',
+    select: 'username avatar'
+  }).populate({
+    path: 'likes',
+    select: 'username avatar'
+  })
+
+  if (cancelLikePost) {
+    cancelLikePost._doc.likesCount = cancelLikePost.likes.length
+    successHandler(
+      res,
+      200,
+      cancelLikePost,
+      `Cancel like of this post (${cancelLikePost._id}) successfully.`
+    )
+  } else {
+    errorHandler(res, 400, `Cannot find the post by this Id or connect error.`)
+  }
+}
+
+/**
+ * [POST] Add a comment
+ */
+exports.addPostCommentHandler = async (req, res, next) => {
+
 }
 
 /**

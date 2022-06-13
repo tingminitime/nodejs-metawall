@@ -13,7 +13,7 @@ const router = express.Router()
  */
 router.get(
   '/posts',
-  setSwagger.getPosts, // set swagger config
+  setSwagger.getPosts,
   mw.catchAsync(jwtAuth),
   mw.catchAsync(PostController.getPostsHandler)
 )
@@ -23,9 +23,29 @@ router.get(
  */
 router.get(
   '/post/:postId',
-  setSwagger.getSinglePost, // set swagger config
+  setSwagger.getSinglePost,
   mw.catchAsync(jwtAuth),
   mw.catchAsync(PostController.getSinglePostHandler)
+)
+
+/**
+ * Like a post
+ */
+router.post(
+  '/post/like/:postId',
+  setSwagger.likePost,
+  mw.catchAsync(jwtAuth),
+  mw.catchAsync(PostController.likePostHandler)
+)
+
+/**
+ * Cancel like to the post
+ */
+router.delete(
+  '/post/like/:postId',
+  setSwagger.cancelLikePost,
+  mw.catchAsync(jwtAuth),
+  mw.catchAsync(PostController.cancelLikePostHandler)
 )
 
 /**
@@ -33,7 +53,7 @@ router.get(
  */
 router.delete(
   '/posts',
-  setSwagger.deleteAllPosts, // set swagger config
+  setSwagger.deleteAllPosts,
   mw.catchAsync(PostController.deleteAllPostsHandler)
 )
 

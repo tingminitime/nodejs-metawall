@@ -98,3 +98,54 @@ exports.deleteUserPostHandler = async (req, res, next) => {
     }
   )
 }
+
+/**
+ * [GET] Get user liked posts
+ */
+exports.getLikedPostsHandler = async (req, res, next) => {
+  const { pageSize, currentPage, descending, keyword } = req.query
+  const userId = req.userId
+
+  // If params hasn't Id, have to give pagination query. (pageSize, currentPage)
+  if (pageSize && currentPage) {
+    const sort = descending ? -1 : 1
+    const findConditions = {
+      likes: { $in: [userId] }
+    }
+    let count = undefined
+    // Keywords search
+    if (keyword) {
+      count = await Post.count(findConditions)
+      findConditions.content = { $regex: keyword }
+    }
+
+    const likedPosts = await Post
+      .find(findConditions)
+      .skip(pageSize * (currentPage - 1))
+      .limit(pageSize)
+      .sort({ createdAt: sort })
+      .populate({
+        path: 'user',
+        select: 'username avatar'
+      })
+
+    successHandler(
+      res,
+      200,
+      likedPosts,
+      `Get user liked posts successfully`,
+      {
+        total: keyword ? count : likedPosts.length,
+        pageSize: Number(pageSize),
+        currentPage: Number(currentPage)
+      }
+    )
+  }
+  else {
+    errorHandler(
+      res,
+      400,
+      `Ensure that the query has 'pageSize' and 'currentPage'.`
+    )
+  }
+}

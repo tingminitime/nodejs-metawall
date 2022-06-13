@@ -8,7 +8,7 @@ exports.validateImageFile = (uploadImage) => {
 
 exports.validateAvatarFile = (avatarBuffer) => {
   const dimensions = sizeOf(avatarBuffer)
-  // console.log('dimensions:', dimensions.width, dimensions.height)
+  console.log('dimensions:', dimensions.width, dimensions.height)
   return dimensions.width === dimensions.height
     && dimensions.height >= 256
 }

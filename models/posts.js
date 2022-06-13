@@ -20,6 +20,12 @@ const user = {
   required: [true, 'user is required.'],
 }
 
+const likes = {
+  ref: 'users',
+  type: [Schema.Types.ObjectId],
+  default: []
+}
+
 const postSchema = new Schema({
   user,
   tags: {
@@ -56,10 +62,7 @@ const postSchema = new Schema({
     type: String,
     required: [true, `'content' is required.`]
   },
-  likes: {
-    type: Number,
-    default: 0
-  },
+  likes,
   comments: {
     type: Number,
     default: 0
