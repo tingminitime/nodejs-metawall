@@ -25,7 +25,7 @@ exports.catchNotFound = (req, res, next) => {
 
 // Catch exception error
 exports.catchException = (err, req, res, next) => {
-  console.error(err)
+  console.error('catchException:', err)
   // Schema error
   if (err.name === 'ValidationError') {
     const errorMessage = schemaErrorHandler(err.errors) || { error: err?.message }

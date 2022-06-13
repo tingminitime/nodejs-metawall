@@ -51,7 +51,7 @@ const catchErrorDev = (err, res) => {
 }
 
 const catchErrorProd = (err, res) => {
-  console.error(err)
+  // console.error(err)
   res.status(err.status || 400).json({
     success: false,
     message: err.message || `Server Error or Invalid Request.`
