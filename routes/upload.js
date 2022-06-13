@@ -21,7 +21,7 @@ router.post(
   setSwagger.uploadImage,
   imageInspect.upload,
   imageInspect.validateImage,
-  mw.catchAsync(jwtAuth),
+  // mw.catchAsync(jwtAuth),
   mw.catchAsync(UploadController.uploadImageHandler)
 )
 
