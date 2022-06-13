@@ -32,6 +32,9 @@ exports.getPostsHandler = async (req, res, next) => {
       .populate({
         path: 'user',
         select: 'username avatar'
+      }).populate({
+        path: 'likes',
+        select: 'username avatar'
       })
 
     successHandler(
@@ -67,6 +70,9 @@ exports.getSinglePostHandler = async (req, res, next) => {
       .findById(params.postId)
       .populate({
         path: 'user',
+        select: 'username avatar'
+      }).populate({
+        path: 'likes',
         select: 'username avatar'
       })
     // Maybe mongoDB will return success message but null result
