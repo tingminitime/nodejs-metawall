@@ -13,6 +13,7 @@ const auth = async (req, res, next) => {
   // "catchAsync" will handle error if "verifyJWT" throw error
   const verifyToken = await jwtHandler.verifyJWT(token)
   req.userId = verifyToken.id
+  console.log('jwt validate:', verifyToken)
 
   next()
 }

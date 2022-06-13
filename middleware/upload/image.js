@@ -8,6 +8,7 @@ exports.upload = multer({
     fileSize: 2 * 1024 * 1024
   },
   fileFilter(req, file, cb) {
+    console.log('multer fileFilter:', file)
     if (!uploadInspection.validateImageFile(file.originalname)) {
       cb(new Error(`'image' must be a valid url and extension must be 'jpg', 'jpeg', 'png', 'gif'`))
     }
@@ -19,6 +20,7 @@ exports.upload = multer({
 // Check file exist
 exports.validateImage = (req, res, next) => {
   const imageFile = req.file
+  console.log('validateImage')
   if (!imageFile) {
     errorHandler(
       res,
