@@ -2,7 +2,7 @@ const validator = require('validator')
 const sizeOf = require('image-size')
 
 exports.validateImageFile = (uploadImage) => {
-  const imageRegex = /\.(jpe?g|png|gif)$/i
+  const imageRegex = /\.(jpe?g|png)$/i
   return imageRegex.test(uploadImage)
 }
 
