@@ -18,8 +18,8 @@ const router = express.Router()
  */
 router.post(
   '/image',
-  // setSwagger.uploadImage,
-  // mw.catchAsync(jwtAuth),
+  setSwagger.uploadImage,
+  mw.catchAsync(jwtAuth),
   imageInspect.upload,
   imageInspect.validateImage,
   mw.catchAsync(UploadController.uploadImageHandler)
