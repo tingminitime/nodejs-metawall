@@ -3,9 +3,7 @@ const { successHandler, errorHandler } = require('../utils/response')
 
 exports.uploadImageHandler = async (req, res, next) => {
   const imageFile = req.file
-  console.log('uploadImageHandler process')
   const response = await Imgur.uploadImageFile(imageFile.buffer)
-  console.log('uploadImageHandler done')
 
   if (!response.success) {
     errorHandler(
