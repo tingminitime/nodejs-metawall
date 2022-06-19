@@ -6,6 +6,9 @@ const mw = require('../middleware')
 const setSwagger = require('../middleware/swagger/config')
 const jwtAuth = require('../middleware/auth/jwtAuth')
 
+// Middleware - validations
+const commentInspect = require('../middleware/posts/comment')
+
 const router = express.Router()
 
 /**
@@ -46,6 +49,17 @@ router.delete(
   setSwagger.cancelLikePost,
   mw.catchAsync(jwtAuth),
   mw.catchAsync(PostController.cancelLikePostHandler)
+)
+
+/**
+ * Leave a comment to the post
+ */
+router.post(
+  '/post/comment/:postId',
+  setSwagger.commentPost,
+  mw.catchAsync(jwtAuth),
+  mw.catchAsync(commentInspect.validateFormat),
+  mw.catchAsync(PostController.commentPostHandler)
 )
 
 /**

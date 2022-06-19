@@ -1,5 +1,6 @@
 const Post = require('../models/posts')
 const User = require('../models/users')
+const PostComment = require('../models/comments')
 // const UserActivity = require('../models/userActivities')
 const dayjs = require('dayjs')
 const {
@@ -29,13 +30,23 @@ exports.getPostsHandler = async (req, res, next) => {
       .skip(pageSize * (currentPage - 1))
       .limit(pageSize)
       .sort({ createdAt: sort })
-      .populate({
-        path: 'user',
-        select: 'username avatar'
-      }).populate({
-        path: 'likes',
-        select: 'username avatar'
-      })
+      .populate([
+        {
+          path: 'user',
+          select: 'username avatar'
+        },
+        {
+          path: 'likes',
+          select: 'username avatar'
+        },
+        {
+          path: 'comments',
+          select: 'user comment createdAtTw'
+        },
+        {
+          path: 'commentsCount'
+        },
+      ])
 
     successHandler(
       res,
@@ -68,13 +79,23 @@ exports.getSinglePostHandler = async (req, res, next) => {
   if (params.postId) {
     const post = await Post
       .findById(params.postId)
-      .populate({
-        path: 'user',
-        select: 'username avatar'
-      }).populate({
-        path: 'likes',
-        select: 'username avatar'
-      })
+      .populate([
+        {
+          path: 'user',
+          select: 'username avatar'
+        },
+        {
+          path: 'likes',
+          select: 'username avatar'
+        },
+        {
+          path: 'comments',
+          select: 'user comment createdAtTw'
+        },
+        {
+          path: 'commentsCount'
+        },
+      ])
     // Maybe mongoDB will return success message but null result
     if (post) {
       successHandler(res, 200, post)
@@ -167,8 +188,30 @@ exports.cancelLikePostHandler = async (req, res, next) => {
 /**
  * [POST] Add a comment
  */
-exports.addPostCommentHandler = async (req, res, next) => {
+exports.commentPostHandler = async (req, res, next) => {
+  // PostComment
+  const { comment } = req.body
+  const userId = req.userId
+  const postId = req.params.postId
 
+  const user = await User.exists({ _id: userId })
+  if (!user) throw new Error(`The userId does not exist.`)
+
+  const post = await Post.exists({ _id: postId })
+  if (!post) throw new Error(`The postId does not exist.`)
+
+  const newComment = await PostComment.create({
+    user: userId,
+    post: postId,
+    comment
+  })
+
+  successHandler(
+    res,
+    201,
+    newComment,
+    `Create post comment successfully.`
+  )
 }
 
 /**

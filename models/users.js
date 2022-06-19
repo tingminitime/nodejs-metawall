@@ -10,6 +10,28 @@ const schemaOptions = {
 }
 
 const userSchema = new Schema({
+  // Ref fields
+  following: [{
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+    },
+    createdAtTw: {
+      type: String,
+      default: () => dayjs(Date.now()).tz('Asia/Taipei').format()
+    },
+  }],
+  followers: [{
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+    },
+    createdAtTw: {
+      type: String,
+      default: () => dayjs(Date.now()).tz('Asia/Taipei').format()
+    },
+  }],
+  // No ref fields
   username: {
     type: String,
     required: [true, `name is required.`],
@@ -37,26 +59,6 @@ const userSchema = new Schema({
     enum: ['male', 'female'],
     default: '',
   },
-  following: [{
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'users',
-    },
-    createdAtTw: {
-      type: String,
-      default: () => dayjs(Date.now()).tz('Asia/Taipei').format()
-    },
-  }],
-  followers: [{
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'users',
-    },
-    createdAtTw: {
-      type: String,
-      default: () => dayjs(Date.now()).tz('Asia/Taipei').format()
-    },
-  }],
   createdAtTw: {
     type: String,
     default: () => dayjs(Date.now()).tz('Asia/Taipei').format()

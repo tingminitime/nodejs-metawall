@@ -11,23 +11,23 @@ dayjs.extend(timezone)
 const schemaOptions = {
   collection: 'posts',
   versionKey: false,
-}
-
-// Ref collection schema
-const user = {
-  ref: 'users',
-  type: Schema.Types.ObjectId,
-  required: [true, 'user is required.'],
-}
-
-const likes = {
-  ref: 'users',
-  type: [Schema.Types.ObjectId],
-  default: []
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 }
 
 const postSchema = new Schema({
-  user,
+  // Ref fields
+  user: {
+    ref: 'users',
+    type: Schema.Types.ObjectId,
+    required: [true, 'user is required.'],
+  },
+  likes: {
+    ref: 'users',
+    type: [Schema.Types.ObjectId],
+    default: []
+  },
+  // No ref fields
   tags: {
     type: [String],
     default: [],
@@ -62,11 +62,6 @@ const postSchema = new Schema({
     type: String,
     required: [true, `'content' is required.`]
   },
-  likes,
-  comments: {
-    type: Number,
-    default: 0
-  },
   createdAt: {
     type: Date,
     default: Date.now
@@ -76,6 +71,20 @@ const postSchema = new Schema({
     default: () => dayjs(Date.now()).tz('Asia/Taipei').format()
   },
 }, schemaOptions)
+
+// Virtual field
+postSchema.virtual('comments', {
+  ref: 'postComments',
+  foreignField: 'post',
+  localField: '_id',
+})
+
+postSchema.virtual('commentsCount', {
+  ref: 'postComments',
+  foreignField: 'post',
+  localField: '_id',
+  count: true
+})
 
 const Post = mongoose.model('posts', postSchema)
 

@@ -1,35 +1,35 @@
 const validate = require('@utils/validate')
-const userInspection = require('@utils/validate/user')
+const userValidator = require('@utils/validate/user')
 const { errorHandler } = require('@utils/response')
 
 // Validate update user profile body format
 exports.validateFormat = async (req, res, next) => {
   const { username, avatar, sex } = req.body
 
-  const inspectResult = {}
+  const validateResult = {}
 
   if (username) {
     Object.assign(
-      inspectResult,
-      validate.pipe(userInspection.validateUsername(username))
+      validateResult,
+      validate.pipe(userValidator.validateUsername(username))
     )
   }
 
   if (avatar) {
     Object.assign(
-      inspectResult,
-      validate.pipe(userInspection.validateAvatar(avatar))
+      validateResult,
+      validate.pipe(userValidator.validateAvatar(avatar))
     )
   }
 
   if (sex) {
     Object.assign(
-      inspectResult,
-      validate.pipe(userInspection.validateSex(sex))
+      validateResult,
+      validate.pipe(userValidator.validateSex(sex))
     )
   }
 
-  if (Object.keys(inspectResult).length === 0) {
+  if (Object.keys(validateResult).length === 0) {
     errorHandler(
       res,
       400,
@@ -38,12 +38,12 @@ exports.validateFormat = async (req, res, next) => {
     return
   }
 
-  if (validate.validateStatus(inspectResult)) {
+  if (validate.validateStatus(validateResult)) {
     errorHandler(
       res,
       400,
       `Update user profile validations error.`,
-      validate.generateMessage(inspectResult, userInspection.validateMessage),
+      validate.generateMessage(validateResult, userValidator.validateMessage),
     )
     return
   }

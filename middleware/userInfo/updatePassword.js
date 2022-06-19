@@ -1,22 +1,22 @@
 const validate = require('@utils/validate')
-const userInspection = require('@utils/validate/user')
+const userValidator = require('@utils/validate/user')
 const { errorHandler } = require('@utils/response')
 
 // Validate update password body format
 exports.validateFormat = async (req, res, next) => {
   const { password, confirmPassword } = req.body
 
-  const inspectResult = validate.pipe(
-    userInspection.validatePassword(password),
-    userInspection.validateConfirmPassword(confirmPassword, password),
+  const validateResult = validate.pipe(
+    userValidator.validatePassword(password),
+    userValidator.validateConfirmPassword(confirmPassword, password),
   )
 
-  if (validate.validateStatus(inspectResult)) {
+  if (validate.validateStatus(validateResult)) {
     errorHandler(
       res,
       400,
       `Update password validations error.`,
-      validate.generateMessage(inspectResult, userInspection.validateMessage),
+      validate.generateMessage(validateResult, userValidator.validateMessage),
     )
     return
   }

@@ -97,6 +97,40 @@ exports.cancelLikePost = (req, res, next) => {
   next()
 }
 
+exports.commentPost = (req, res, next) => {
+  /**
+   * #swagger.tags = ['Posts - 貼文']
+   * #swagger.description = '對貼文留言'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['postId'] = {
+      in: 'query',
+      description: '留言的貼文 id',
+      required: true,
+    }
+   */
+
+  next()
+}
+
+exports.deleteCommentPost = (req, res, next) => {
+  /**
+   * #swagger.tags = ['Posts - 貼文']
+   * #swagger.description = '刪除貼文的留言'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['postId'] = {
+      in: 'query',
+      description: '刪除留言的 id',
+      required: true,
+    }
+   */
+
+  next()
+}
+
 exports.deleteAllPosts = (req, res, next) => {
   /**
    * #swagger.tags = ['Posts - 貼文']

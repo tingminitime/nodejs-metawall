@@ -1,5 +1,5 @@
 const validate = require('@utils/validate')
-const userInspection = require('@utils/validate/user')
+const userValidator = require('@utils/validate/user')
 const { errorHandler } = require('@utils/response')
 
 // Validate register body format
@@ -12,20 +12,20 @@ exports.validateFormat = async (req, res, next) => {
     sex
   } = req.body
 
-  const inspectResult = validate.pipe(
-    userInspection.validateUsername(username),
-    userInspection.validateEmail(email),
-    userInspection.validatePassword(password),
-    userInspection.validateConfirmPassword(confirmPassword, password),
-    userInspection.validateSex(sex)
+  const validateResult = validate.pipe(
+    userValidator.validateUsername(username),
+    userValidator.validateEmail(email),
+    userValidator.validatePassword(password),
+    userValidator.validateConfirmPassword(confirmPassword, password),
+    userValidator.validateSex(sex)
   )
 
-  if (validate.validateStatus(inspectResult)) {
+  if (validate.validateStatus(validateResult)) {
     errorHandler(
       res,
       400,
       `Register validations error.`,
-      validate.generateMessage(inspectResult, userInspection.validateMessage),
+      validate.generateMessage(validateResult, userValidator.validateMessage),
     )
     return
   }
@@ -37,7 +37,7 @@ exports.validateFormat = async (req, res, next) => {
 exports.checkDuplicateEmail = async (req, res, next) => {
   const { email } = req.body
 
-  const checkEmailFormat = userInspection.validateEmail(email)()
+  const checkEmailFormat = userValidator.validateEmail(email)()
   if (!checkEmailFormat) {
     errorHandler(
       res,
@@ -47,7 +47,7 @@ exports.checkDuplicateEmail = async (req, res, next) => {
     return
   }
 
-  const checkDuplicateEmail = await userInspection.checkDuplicateEmail(email)
+  const checkDuplicateEmail = await userValidator.checkDuplicateEmail(email)
   if (checkDuplicateEmail) {
     errorHandler(
       res,
